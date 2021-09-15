@@ -24,7 +24,7 @@
 
 
     <div class="d-flex justify-content-center">
-      <h1 class="display-1">Display 1</h1>
+      <h1 class="display-1">Display 1{{tamanhoJanela}}</h1>
       <h1 class="display-1">Display 1</h1>
       <h1 class="display-1">Display 1</h1>
     </div>
@@ -32,8 +32,16 @@
 </template>
 
 <script>
+import breakpoint from './style/breakpoint'
+
 export default {
   name: "App",
+  computed:{
+    tamanhoJanela(){
+      const { type } = breakpoint()
+      return type;
+    }
+  }
 };
 </script>
 
