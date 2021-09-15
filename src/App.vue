@@ -22,6 +22,7 @@
       </div>
     </nav>
 
+
     <div class="d-flex justify-content-center">
       <h1 class="display-1">Display 1</h1>
       <h1 class="display-1">Display 1</h1>
