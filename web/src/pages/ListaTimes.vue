@@ -1,11 +1,14 @@
-<template> 
+<template>
+  
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import TabelaGenerica from '../../src/components/TabelaGenerica.vue'
  
 export default {
-  components: { },
+  name:'ListaTimes',
+  components: {TabelaGenerica },
   computed:{
     ...mapState(['times'])
   },

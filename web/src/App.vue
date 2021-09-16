@@ -9,7 +9,8 @@
     </div>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container-fluid">
-        <button
+        
+        <button v-if="isCelular"
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -20,17 +21,30 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+        <div v-else>
+          <BotoesRotas/>
+        </div>
       </div>
     </nav>   </section>  
-    <main>
+    <main class="d-flex justify-content-center">
       <router-view></router-view>
     </main>
   </div>
 </template>
 
 <script>
+import BotoesRotas from './components/BotoesRotas.vue';
+import breakpoint from './style/breakpoint'
 export default {
+  components: { BotoesRotas },
   name: "App",
+  computed:{
+    isCelular(){
+      const { largura } = breakpoint()
+      let wd = largura();
+      return wd < 750 
+    }
+  }
   
 };
 </script>
