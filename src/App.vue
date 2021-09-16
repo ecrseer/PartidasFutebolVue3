@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="collapse" id="navbarToggleExternalContent">
+    <section>
+      <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-dark p-4">
-        <h5 class="text-white h4">Collapsed content</h5>
+        <h5 class="text-white h4">Collapsed Y</h5>
         <span class="text-muted">Toggleable via the navbar brand.</span>
       </div>
     </div>
@@ -20,28 +21,17 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
-    </nav>
-
-
-    <div class="d-flex justify-content-center">
-      <h1 class="display-1">Display 1{{tamanhoJanela}}</h1>
-      <h1 class="display-1">Display 1</h1>
-      <h1 class="display-1">Display 1</h1>
-    </div>
+    </nav>   </section>  
+    <main>
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
 <script>
-import breakpoint from './style/breakpoint'
-
 export default {
   name: "App",
-  computed:{
-    tamanhoJanela(){
-      const { type } = breakpoint()
-      return type;
-    }
-  }
+  
 };
 </script>
 

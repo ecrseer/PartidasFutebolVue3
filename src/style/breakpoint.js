@@ -14,7 +14,8 @@ export default function () {
   })
 
   const width = computed(() => windowWidth.value)
+  let largura = () => windowWidth.value
 
-  return { width, type }
+  return { width, type, largura }
 }
 
