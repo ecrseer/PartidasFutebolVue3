@@ -1,11 +1,15 @@
 import {createStore} from 'vuex'
 import axios from 'axios'
+import { baseUrlApi } from './const'
 
 const store = createStore({
   state() {  // equivalente ao data de um componente
     return {
       carregando: false,
-      times: []
+      times: [],
+      jogadores:[],
+      partidas:[],
+      gols:[]
     }
   },
   getters: { // equivalente ao computed de um componente
@@ -38,8 +42,7 @@ const store = createStore({
   actions: { // equivalente ao methods de um componente
     async carregar({commit}) {
       commit('carregando')
-
-      axios.get('https://sheetdb.io/api/v1/cuyfdc2x1vwf4').then(({data}) => {
+      axios.get(baseUrlApi.times).then(({data}) => {
         commit('time_carregado', data)
       })
     },

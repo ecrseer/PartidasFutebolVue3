@@ -7,7 +7,7 @@ const ESTADOS = [
 const useSheetApi = true;
  
 const baseUrlApi = {
-  times:'https://sheetdb.io/api/v1/afbp0fdkdpjvi',
+  times:'http://localhost:3000/times',
   jogadores:'apiDev_jogadores.json'
 } 
 //apiDev_times.json

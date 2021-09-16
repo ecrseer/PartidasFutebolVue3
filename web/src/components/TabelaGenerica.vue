@@ -1,24 +1,27 @@
 <template>
-  <table  >
-    <thead>
+  <div class="table-responsive">
+  <table class="table" >
+    <thead >
       <tr>
         <th v-for="(atributo, key) in lista[0]" v-bind:key="key">
           <span v-if="!Array.isArray(atributo)">{{ key }}</span>
         </th>
       </tr>
     </thead>
-    <tbody id="test_tabela">
+    <tbody id="test_tabela" class="table-dark">
       <tr v-for="item in lista" v-bind:key="item" v-bind:class="item===entidadeSelecionada?'colorido':''">
         <td v-for="(atributo, key) in item" v-bind:key="key"
         >
           <span v-if="!Array.isArray(atributo)">{{atributo}}</span>
         </td>
         <td>
-          <v-btn class="colorido" @click="editar(item)">editar</v-btn>
+          <button class="colorido" @click="editar(item)">editar</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  </div>
 </template>
 
 <script>

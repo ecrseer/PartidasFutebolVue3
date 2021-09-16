@@ -31,16 +31,15 @@
           :itens="ESTADOS"
         ></CampoDropDown>
       </section>
-      <v-progress-circular
-        v-if="carregando"
-        indeterminate
-        class="green lighten-5"
-      ></v-progress-circular>
+      <div v-if="carregando" class="spinner-border text-info" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+
 
       <div v-else>
-        <v-btn @click="salvar" id="test_btnsalvar">salvar</v-btn>
+        <button class="btn btn-success" @click="salvar" id="test_btnsalvar">salvar</button>
         <div v-if="entidade">
-          <v-btn small color="error" @click="apagar">apagar</v-btn>
+          <button  class="btn btn-danger" color="error" @click="apagar">apagar</button>
         </div>
       </div>
     </div>
@@ -101,12 +100,12 @@ export default {
       this[this.entenome] = this.ente_novin();
     },
     handleSalvarEditarEntidadeInterior(payloadEdicao) {
-       if (!this.entidade) {
-          this.$bus.emit("FormAddJogador", this.Jogador);
-          this[this.entenome] = this.ente_novin();
-        } else {
-          this.$bus.emit("FormEditJogador",payloadEdicao);
-        }
+      if (!this.entidade) {
+        this.$bus.emit("FormAddJogador", this.Jogador);
+        this[this.entenome] = this.ente_novin();
+      } else {
+        this.$bus.emit("FormEditJogador", payloadEdicao);
+      }
     },
     async salvar() {
       let payloadEdicaoGenerico = {
@@ -114,8 +113,8 @@ export default {
         editado: this[this.entenome],
       };
 
-      if (this.entidadepai) {  
-        this.handleSalvarEditarEntidadeInterior(payloadEdicaoGenerico)
+      if (this.entidadepai) {
+        this.handleSalvarEditarEntidadeInterior(payloadEdicaoGenerico);
         return;
       }
 
@@ -126,7 +125,10 @@ export default {
         );
         this[this.entenome] = this.ente_novin();
       } else {
-        await this.$store.dispatch(`editar${this.entenome}`, payloadEdicaoGenerico);
+        await this.$store.dispatch(
+          `editar${this.entenome}`,
+          payloadEdicaoGenerico
+        );
       }
 
       this.$router.replace({
@@ -135,7 +137,6 @@ export default {
     },
 
     async apagar() {
-      
       if (this.entenome !== "Jogador") {
         await this.$store.dispatch(`apagar${this.entenome}`, this.entidade);
         this.$router.push({
@@ -145,7 +146,6 @@ export default {
       }
       this.$bus.emit("FormDeleteJogador");
 
-      
       this.limparEntidade();
     },
 
