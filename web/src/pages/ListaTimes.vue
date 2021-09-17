@@ -1,16 +1,20 @@
 <template>
-  <TabelaGenerica :entidadenome="'Times'" :lista="times"/> 
+  <TabelaGenerica :entidadenome="'Times'" :lista="times" 
+  :golsTime="getGolsTime"
+  /> 
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import {  mapGetters,mapState } from 'vuex'
 import TabelaGenerica from '../../src/components/TabelaGenerica.vue'
  
 export default {
   name:'ListaTimes',
   components: {TabelaGenerica },
   computed:{
-    ...mapState(['times'])
+    ...mapState(['times']),
+    ...mapGetters(['getGolsTime']),    
+    
   },
   mounted() {
     this.$store.dispatch('carregar')

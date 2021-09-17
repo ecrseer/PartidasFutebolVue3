@@ -6,6 +6,9 @@
         <th v-for="(atributo, key) in lista[0]" v-bind:key="key">
           <span v-if="!Array.isArray(atributo)">{{ key }}</span>
         </th>
+        <th v-if="entidadenome==='Times'">
+          qtd. gols
+        </th>
       </tr>
     </thead>
     <tbody id="test_tabela" class="table-dark">
@@ -15,6 +18,10 @@
         >
           <span v-if="!Array.isArray(atributo)">{{atributo}}</span>
         </td>
+        <td v-if="entidadenome==='Times'">
+          {{golsTime(item)}}
+        </td>
+          
         <td>
           <button class="colorido" @click="editar(item)">editar</button>
         </td>
@@ -29,12 +36,12 @@
 import { mapActions, mapState } from "vuex";
 export default {
   name: "TabelaGenerica",
-  props: ["lista", "entidadenome"],
+  props: ["lista", "entidadenome","golsTime"],
   data: () => {
     return {
       entidadeSelecionada: {},
     };
-  },
+  }, 
   methods: {
     editar(item) {
       if(this.entidadenome==="Jogador"){
@@ -54,7 +61,7 @@ export default {
       this.$router.push({
         path: `/${rota_ente}/editar/${item.id}`,
       });
-    },
+    } 
   },
   unmounted() {
     /* gambiarra */

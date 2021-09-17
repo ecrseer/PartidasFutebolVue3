@@ -37,6 +37,20 @@ const store = createStore({
         return jogadoresNoTime
 
       }
+    },
+    getGolsTime(state){
+      return function(time){
+        let nGols = 0;
+        time.jogadores.forEach((jogadr)=>{
+          for (const gol of state.gols) {
+            if(gol.jogador_id===jogadr){
+              nGols++
+            }
+          }
+        })
+        
+        return nGols;
+      }      
     }
   },
   mutations: { // altera o state
