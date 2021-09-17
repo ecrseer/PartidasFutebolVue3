@@ -77,11 +77,22 @@ const store = createStore({
       if (index >= 0) {
         state.jogadores.splice(index, 1)
       }
-     
+      let timeEncontrado = state.times.filter(tme => tme.id === time.id)[0]
+      
+      if (timeEncontrado) {
+        let indJogadorEncontrado = timeEncontrado
+          .jogadores.indexOf(jogador.id)
+          if (index >= 0) {
+            timeEncontrado.jogadores.splice(indJogadorEncontrado, 1)
+          }   
+      }
+      
 
       state.carregando = false
     },
     obj_editar(state, { original, editado }) {
+      
+
       Object.assign(original, editado)
       state.carregando = false
     },
@@ -114,29 +125,7 @@ const store = createStore({
       })
 
     },
-    async apagarTime({ commit }, time) {
-      commit('carregando')
-
-      await axios.delete(`${baseUrlApi.times}/${time.id}`)
-      commit('time_apagar', time)
-
-    },
-    async apagarJogador({ commit }, { time, jogador }) {
-      commit('carregando')
-
-      await axios.delete(`${baseUrlApi.jogadores}/${jogador.id}`)
-      commit('jogador_apagar', { time, jogador })
-      let timeEncontrado = state.times.filter(tme => tme.id === time.id)[0]
-      if (timeEncontrado) {
-        let indJogadorEncontrado = timeEncontrado
-          .jogadores.indexOf(jogador)
-          if (index >= 0) {
-            timeEncontrado.jogadores.splice(indJogadorEncontrado, 1)
-          }   
-      }
-
-
-    },
+    
     async criarTime({ commit }, time) {
       commit('carregando')
       await axios.post(baseUrlApi.times, { ...time })
@@ -148,10 +137,8 @@ const store = createStore({
 
       axios.post(
         `${baseUrlApi.jogadores}`, { ...jogador })
-        .then(({ data }) => {
-           
-          jogador.id = data.id
-           
+        .then(({ data }) => {           
+          jogador.id = data.id           
           commit('jogador_criar', jogador)
         })
         .catch(er => console.log(er))
@@ -172,7 +159,7 @@ const store = createStore({
     },
     async editarTime({ commit }, { original, editado }) {
       commit('carregando')
-
+      
       await axios.put(`${baseUrlApi.times}/${editado.id}`, { ...editado })
       commit('obj_editar', { original, editado })
     },
@@ -181,7 +168,25 @@ const store = createStore({
 
       await axios.put(`${baseUrlApi.jogadores}/${editado.id}`, { ...editado })
       commit('obj_editar', { original, editado })
-    }
+    },
+    async apagarTime({ commit }, time) {
+      commit('carregando')
+
+      await axios.delete(`${baseUrlApi.times}/${time.id}`)
+      commit('time_apagar', time)
+
+    },
+    async apagarJogador({ commit,dispatch }, { time, jogador }) {
+
+      commit('carregando')
+
+      commit('jogador_apagar', { time, jogador })
+
+      await axios.delete(`${baseUrlApi.jogadores}/${jogador.id}`)      
+      
+      dispatch('editarTime',{original:time,editado:time})
+
+    },
 
   }
 })

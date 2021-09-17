@@ -1,5 +1,5 @@
 <template>
-  <TabelaGenerica :entenome="'Times'" :lista="times"/> 
+  <TabelaGenerica :entidadenome="'Times'" :lista="times"/> 
 </template>
 
 <script>

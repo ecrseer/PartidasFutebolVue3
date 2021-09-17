@@ -29,7 +29,7 @@
 import { mapActions, mapState } from "vuex";
 export default {
   name: "TabelaGenerica",
-  props: ["lista", "entenome"],
+  props: ["lista", "entidadenome"],
   data: () => {
     return {
       entidadeSelecionada: {},
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     editar(item) {
-      if(this.entenome==="Jogador"){
+      if(this.entidadenome==="Jogador"){
         if(this.entidadeSelecionada === item){
           this.$bus.emit("FormUnselectJogador");
           this.entidadeSelecionada={}
@@ -49,7 +49,7 @@ export default {
         return;
       }
 
-      let rota_ente = this.entenome.toLowerCase();
+      let rota_ente = this.entidadenome.toLowerCase();
 
       this.$router.push({
         path: `/${rota_ente}/editar/${item.id}`,

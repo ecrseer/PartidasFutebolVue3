@@ -1,5 +1,5 @@
 <template> 
-  <Formulario v-bind:istimef="true" v-bind:entenome="'Time'"/>
+  <Formulario :entidadenome="'Time'"/>
 </template>
 
 <script> 

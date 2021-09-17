@@ -4,7 +4,7 @@
       <h2 v-if="entidade">Editar {{ entidadenome }}</h2>
       <h2 v-else>Criar {{ entidadenome }}</h2>
 
-      <section v-if="istimef">
+      <section v-if="entidadenome === 'Time'">
         <Campo nome="nome" v-model="Time.nome"></Campo>
         <CampoDropDown
           nome="estado"
@@ -58,7 +58,7 @@ import { ESTADOS, useSheetApi } from "../const.js";
 export default {
   name: "Formulario",
   components: { Campo, CampoDropDown, CampoText },
-  props: ["entidade", "istimef", "entidadenome", "entidadepai"],
+  props: ["entidade", "entidadenome", "entidadepai"],
   data() {
     return {
       editando: false,
@@ -69,13 +69,8 @@ export default {
   },
   computed: {
     ...mapState(["carregando"]),
-    ...mapGetters(["getUltimoEnteId"]),
-    incrementaId() {
-      if (this.entidadenome === "Time") return this.getUltimoEnteId("times");
 
-      return this.getUltimoEnteId("jogadores");
-    },
-    payloadEdicaoGenerico(){
+    payloadEdicaoGenerico() {
       return {
         original: this.entidade,
         editado: this[this.entidadenome],
@@ -109,14 +104,12 @@ export default {
     handleSalvarEditarEntidadeInterior() {
       if (!this.entidade) {
         this.$bus.emit("FormAddJogador", this.Jogador);
-        this[this.entidadenome] = this.ente_novin();
+        this.limparEntidade();
       } else {
         this.$bus.emit("FormEditJogador", this.payloadEdicaoGenerico);
       }
     },
     async salvar() {
-      
-
       if (this.entidadepai) {
         this.handleSalvarEditarEntidadeInterior();
         return;
@@ -127,7 +120,8 @@ export default {
           `criar${this.entidadenome}`,
           this[this.entidadenome]
         );
-        this[this.entidadenome] = this.ente_novin();
+        this.limparEntidade();
+        
         this.$router.replace({
           name: "ListaTimes",
         });
@@ -137,7 +131,6 @@ export default {
           this.payloadEdicaoGenerico
         );
       }
-
     },
 
     async apagar() {
@@ -149,7 +142,6 @@ export default {
         return;
       }
       this.$bus.emit("FormDeleteJogador");
- 
     },
 
     atualizaEditEntidade() {

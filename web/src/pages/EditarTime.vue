@@ -10,7 +10,10 @@
         >
         </Formulario>
 
-        <TabelaGenerica v-bind:lista="jogadoresNoTime" :entenome="'Jogador'" />
+        <TabelaGenerica
+          v-bind:lista="jogadoresNesseTime"
+          :entidadenome="'Jogador'"
+        />
       </div>
       <div class="col">
         <Formulario
@@ -42,15 +45,13 @@ export default {
     timeSelecionado() {
       return this.getEntePorId("times", this.$route.params.idtime);
     },
-    jogadoresNoTime() {
+    jogadoresNesseTime() {
       return this.getJogadoresNoTime(this.timeSelecionado);
-    },
-    jogadoresDisponiveis() {
-      return this.getJogadoresDisponiveis();
     },
   },
   created() {
     this.$bus.on("FormAddJogador", (jogadr) => {
+      jogadr.time_id = this.timeSelecionado.id;
       this.$store.dispatch("criarJogador", {
         time: this.timeSelecionado,
         jogador: jogadr,
@@ -59,15 +60,13 @@ export default {
 
     this.$bus.on("FormEditJogador", (antigoEnovo) => {
       this.$store.dispatch("editarJogador", antigoEnovo);
-      
     });
     this.$bus.on("FormDeleteJogador", () => {
-      debugger
+      
       this.$store.dispatch("apagarJogador", {
         time: this.timeSelecionado,
         jogador: this.jogadorSelecionado,
-      }); 
-       
+      });
     });
     /* 
     this.$bus.on("FormAddTime", (jogadr) => {
