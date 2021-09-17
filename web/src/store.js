@@ -51,6 +51,18 @@ const store = createStore({
         
         return nGols;
       }      
+    },
+    getGolsJogador(state){
+      return function(jogador){
+        let nGols = 0; 
+          for (const gol of state.gols) {
+            if(gol.jogador_id===jogador.id){
+              nGols++
+            }
+          } 
+        
+        return nGols;
+      }      
     }
   },
   mutations: { // altera o state

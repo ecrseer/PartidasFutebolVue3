@@ -4,9 +4,9 @@
     <thead >
       <tr>
         <th v-for="(atributo, key) in lista[0]" v-bind:key="key">
-          <span v-if="!Array.isArray(atributo)">{{ key }}</span>
+          <span v-if="CampoDeveAparecer(atributo,key)">{{ key }}</span>
         </th>
-        <th v-if="entidadenome==='Times'">
+        <th >
           qtd. gols
         </th>
       </tr>
@@ -16,9 +16,9 @@
       v-bind:class="item===entidadeSelecionada?'colorido':''">
         <td v-for="(atributo, key) in item" v-bind:key="key"
         >
-          <span v-if="!Array.isArray(atributo)">{{atributo}}</span>
+          <span v-if="CampoDeveAparecer(atributo,key)">{{atributo}}</span>
         </td>
-        <td v-if="entidadenome==='Times'">
+        <td >
           {{golsTime(item)}}
         </td>
           
@@ -61,6 +61,10 @@ export default {
       this.$router.push({
         path: `/${rota_ente}/editar/${item.id}`,
       });
+    },
+    CampoDeveAparecer(atributo,key){
+      
+      return !Array.isArray(atributo) && key.indexOf('id')===-1
     } 
   },
   unmounted() {
