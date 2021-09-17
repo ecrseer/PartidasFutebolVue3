@@ -32,39 +32,47 @@ const store = createStore({
         }
 
         let jogadoresNoTime = []
-        jogadoresNoTime = state.jogadores.filter(jogador=>jogador.time_id===time.id)
-        
+        jogadoresNoTime = state.jogadores.filter(jogador => jogador.time_id === time.id)
+
         return jogadoresNoTime
 
       }
     },
-    getGolsTime(state){
-      return function(time){
+    getGolsTime(state) {
+      return function (time) {
         let nGols = 0;
-        time.jogadores.forEach((jogadr)=>{
+        time.jogadores.forEach((jogadr) => {
           for (const gol of state.gols) {
-            if(gol.jogador_id===jogadr){
+            if (gol.jogador_id === jogadr) {
               nGols++
             }
           }
         })
-        
+
         return nGols;
-      }      
+      }
     },
-    getGolsJogador(state){
-      return function(jogador){
-        let nGols = 0; 
-          for (const gol of state.gols) {
-            if(gol.jogador_id===jogador.id){
-              nGols++
-            }
-          } 
-        
+    getGolsJogador(state) {
+      return function (jogador) {
+        let nGols = 0;
+        for (const gol of state.gols) {
+          if (gol.jogador_id === jogador.id) {
+            nGols++
+          }
+        }
+
         return nGols;
-      }      
+      }
+    },
+    getTimeById(state) {
+      return function (idTime) {
+        let timeEncontrado =
+          state.times.filter(tme => tme.id === idTime)[0]
+        return timeEncontrado || { nome: '404' }
+      }
     }
   },
+
   mutations: { // altera o state
     carregando(state) {
       state.carregando = true
@@ -98,20 +106,20 @@ const store = createStore({
         state.jogadores.splice(index, 1)
       }
       let timeEncontrado = state.times.filter(tme => tme.id === time.id)[0]
-      
+
       if (timeEncontrado) {
         let indJogadorEncontrado = timeEncontrado
           .jogadores.indexOf(jogador.id)
-          if (index >= 0) {
-            timeEncontrado.jogadores.splice(indJogadorEncontrado, 1)
-          }   
+        if (index >= 0) {
+          timeEncontrado.jogadores.splice(indJogadorEncontrado, 1)
+        }
       }
-      
+
 
       state.carregando = false
     },
     obj_editar(state, { original, editado }) {
-      
+
 
       Object.assign(original, editado)
       state.carregando = false
@@ -145,7 +153,7 @@ const store = createStore({
       })
 
     },
-    
+
     async criarTime({ commit }, time) {
       commit('carregando')
       await axios.post(baseUrlApi.times, { ...time })
@@ -157,8 +165,8 @@ const store = createStore({
 
       axios.post(
         `${baseUrlApi.jogadores}`, { ...jogador })
-        .then(({ data }) => {           
-          jogador.id = data.id           
+        .then(({ data }) => {
+          jogador.id = data.id
           commit('jogador_criar', jogador)
         })
         .catch(er => console.log(er))
@@ -166,7 +174,7 @@ const store = createStore({
           () => {
             let timeEditado = { ...time }
             timeEditado.jogadores.push(jogador.id)
-             
+
             dispatch('editarTime', {
               original: time,
               editado: timeEditado
@@ -179,7 +187,7 @@ const store = createStore({
     },
     async editarTime({ commit }, { original, editado }) {
       commit('carregando')
-      
+
       await axios.put(`${baseUrlApi.times}/${editado.id}`, { ...editado })
       commit('obj_editar', { original, editado })
     },
@@ -196,15 +204,15 @@ const store = createStore({
       commit('time_apagar', time)
 
     },
-    async apagarJogador({ commit,dispatch }, { time, jogador }) {
+    async apagarJogador({ commit, dispatch }, { time, jogador }) {
 
       commit('carregando')
 
       commit('jogador_apagar', { time, jogador })
 
-      await axios.delete(`${baseUrlApi.jogadores}/${jogador.id}`)      
-      
-      dispatch('editarTime',{original:time,editado:time})
+      await axios.delete(`${baseUrlApi.jogadores}/${jogador.id}`)
+
+      dispatch('editarTime', { original: time, editado: time })
 
     },
 

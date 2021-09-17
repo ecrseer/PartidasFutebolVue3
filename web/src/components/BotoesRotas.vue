@@ -4,12 +4,17 @@
     class="flex-sm-fill text-sm-center nav-link active"
     aria-current="times"
     to="/times"
-    >Times</router-link >
+    >Listar Times</router-link >
     <router-link
     class="flex-sm-fill text-sm-center nav-link active"
     aria-current="times"
     to="/times/criar"
     >Criar Time</router-link > 
+    <router-link
+    class="flex-sm-fill text-sm-center nav-link active"
+    aria-current="partidas"
+    to="/partidas"
+    >Listar Partidas</router-link > 
 </template>
 
 <script>

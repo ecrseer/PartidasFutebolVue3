@@ -3,27 +3,41 @@
   <table class="table" >
     <thead >
       <tr>
-        <th v-for="(atributo, key) in lista[0]" v-bind:key="key">
-          <span v-if="CampoDeveAparecer(atributo,key)">{{ key }}</span>
+        <th>
+            Time casa
         </th>
         <th >
-          qtd. gols
+          Gols casa
+        </th>
+        <th >
+          Gols visitante
+        </th>
+        <th >
+          Time visitante
+        </th>
+        <th >
+          opts
         </th>
       </tr>
     </thead>
     <tbody id="test_tabela" class="table-dark">
-      <tr v-for="item in lista" v-bind:key="item" 
-      v-bind:class="item===entidadeSelecionada?'table-primary':''">
-        <td v-for="(atributo, key) in item" v-bind:key="key"
-        >
-          <span v-if="CampoDeveAparecer(atributo,key)">{{atributo}}</span>
+      <tr v-for="partida in lista" v-bind:key="partida" 
+      v-bind:class="partida===entidadeSelecionada?'table-primary':''">
+        <td>{{timeById(partida.time_casa).nome
+            || partida.time_casa || '' }}
         </td>
         <td >
-          {{golsTime(item)}}
+          007
+        </td>
+        <td >
+          007
         </td>
           
+        <td>{{timeById(partida.time_visitante).nome
+            || partida.time_visitante || '' }}
+        </td>
         <td>
-          <button class="colorido" @click="editar(item)">editar</button>
+          <button class="colorido" @click="editar(partida)">editar</button>
         </td>
       </tr>
     </tbody>
@@ -33,15 +47,21 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import {  mapGetters, mapState } from "vuex";
 export default {
-  name: "TabelaGenerica",
-  props: ["lista", "entidadenome","golsTime"],
+  name: "TabelaPartidas",
+  props: ["lista", "entidadenome"],
   data: () => {
     return {
       entidadeSelecionada: {},
     };
   }, 
+  computed:{
+      ...mapGetters(['getTimeById']),
+      timeById(){
+          return idTime => this.getTimeById(idTime)           
+      },
+  },
   methods: {
     editar(item) {
       if(this.entidadenome==="Jogador"){
@@ -56,15 +76,11 @@ export default {
         return;
       }
 
-      let rota_ente = this.entidadenome.toLowerCase();
+      let rota_ente = this.entidadenome.toLowerCase() || 'times';
 
       this.$router.push({
         path: `/${rota_ente}/editar/${item.id}`,
       });
-    },
-    CampoDeveAparecer(atributo,key){
-      
-      return !Array.isArray(atributo) && key.indexOf('id')===-1
     } 
   },
   unmounted() {
