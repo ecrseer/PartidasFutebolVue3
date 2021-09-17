@@ -2,7 +2,8 @@
   <div class="col-12">
     <label :for="nome"  class="form-label">{{ nome }}</label>
     <select
-      class="form-control"
+      class="form-select"
+      multiple aria-label="multiple select example" size="1"
       :id="nome"
       :placeholder="nome"
       :value="modelValue"

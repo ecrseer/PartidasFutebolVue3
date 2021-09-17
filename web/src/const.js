@@ -4,11 +4,14 @@ const ESTADOS = [
   'RS',
   'PA'
 ]
-const useSheetApi = true;
- 
+const useSheetApi = false;
+const inicioUrlApi = 'https://cartola-proj-bloco-js.herokuapp.com'
 const baseUrlApi = {
-  times:'http://localhost:3000/times',
-  jogadores:'apiDev_jogadores.json'
+  times:`${inicioUrlApi}/times`,
+  jogadores:`${inicioUrlApi}/jogadores`,
+  partidas:`${inicioUrlApi}/partidas`,
+  gols:`${inicioUrlApi}/gols`,
+  
 } 
 //apiDev_times.json
 //https://sheetdb.io/api/v1/afbp0fdkdpjvi

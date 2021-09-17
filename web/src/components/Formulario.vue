@@ -77,18 +77,18 @@ export default {
     ente_novin() {
       if (this.entenome === "Time") {
         return {
-          id: useSheetApi ? "INCREMENT" : this.incrementaId,
+          
           nome: "",
           estado: "",
           tecnico: "",
           torcida: "",
           fundacao_ano: "",
           info: "",
-          jogadores: "[]",
+          jogadores: [],
         };
       }
       return {
-        id: useSheetApi ? "INCREMENT" : this.incrementaId,
+        
         nome: "",
         camisa: 0,
         salario: "$0.0",

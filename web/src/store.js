@@ -13,7 +13,15 @@ const store = createStore({
     }
   },
   getters: { // equivalente ao computed de um componente
-
+    getEntePorId(state) {
+      return function(entenome,idEnte){
+        
+        let enteFiltrado = state[entenome].filter(
+            (ente) => `${ente.id}` === `${idEnte}`)[0]; 
+            debugger
+            return enteFiltrado;
+      }
+    },
   },
   mutations: { // altera o state
     carregando(state) {
@@ -21,6 +29,18 @@ const store = createStore({
     },
     time_carregado(state, times) {
       state.times = times
+      state.carregando = false
+    },
+    jogador_carregado(state, jogadors) {
+      state.jogadores = jogadors
+      state.carregando = false
+    },
+    partida_carregado(state, partidas) {
+      state.partidas = partidas
+      state.carregando = false
+    },
+    gol_carregado(state, gols) {
+      state.gols = gols
       state.carregando = false
     },
     time_apagar(state, time) {
@@ -43,22 +63,33 @@ const store = createStore({
     async carregar({commit}) {
       commit('carregando')
       axios.get(baseUrlApi.times).then(({data}) => {
+        console.log(baseUrlApi.times)
         commit('time_carregado', data)
       })
+      axios.get(baseUrlApi.jogadores).then(({data}) => {
+        console.log(baseUrlApi.jogadores)
+        commit('jogador_carregado', data)
+      })
+      axios.get(baseUrlApi.gols).then(({data}) => {
+        console.log(baseUrlApi.gols)
+        commit('gol_carregado', data)
+      })
+      axios.get(baseUrlApi.partidas).then(({data}) => {
+        console.log(baseUrlApi.partidas)
+        commit('partida_carregado', data)
+      })
+      
     },
     async apagar({commit}, time) {
       commit('carregando')
-
+ 
       await axios.delete(`https://sheetdb.io/api/v1/cuyfdc2x1vwf4/id/${time.id}`)
       commit('time_apagar', time)
 
     },
-    async criar({commit}, time) {
+    async criarTime({commit}, time) {
       commit('carregando')
-      await axios.post(
-        'https://sheetdb.io/api/v1/cuyfdc2x1vwf4',
-        {data: [time]}
-      )
+      await axios.post( baseUrlApi.times, {...time} )
       commit('time_criar', time)
 
     },

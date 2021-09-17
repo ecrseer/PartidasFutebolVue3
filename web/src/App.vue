@@ -27,7 +27,7 @@
         </div>
       </nav>
     </section>
-    <main class="d-flex justify-content-center">
+    <main class="d-flex flex-row justify-content-center">
       <router-view></router-view>
     </main>
   </div>

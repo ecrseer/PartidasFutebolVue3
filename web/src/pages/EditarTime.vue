@@ -1,33 +1,30 @@
 <template>
-  <v-container class="grey lighten-5">
-    <v-row :class="'mb-6'" no-gutters>
-      <v-col cols="12" sm="6">
-        <v-card class="pa-2 mb-6" outlined tile>
+  <div class="d-flex flex-row justify-content-around  ">
+    
+      
+        
           <Formulario
             v-bind:istimef="true"
             v-bind:entidade="timeSelecionado"
             v-bind:entenome="'Time'"
-          >
+            class="m-5"
+            > 
           </Formulario>
-        </v-card>
-
-        <v-card class="pa-2 mb-6" outlined tile>
+         
+         
           <TabelaGenerica
-            v-bind:lista="timeSelecionado.jogadores"
+            v-bind:lista="jogadoresNoTime"
             :entenome="'Jogador'"
           />
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="6" class="pa-2">
-        <v-card class="pa-2" outlined tile>
+         
           <Formulario
             v-bind:entenome="'Jogador'"
             v-bind:entidade="jogadorSelecionado"
-            v-bind:entidadepai="timeSelecionado"
-        /></v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            v-bind:entidadepai="timeSelecionado" />
+      
+      
+    
+  </div>
 </template>
 
 <script>
@@ -47,13 +44,16 @@ export default {
     ...mapGetters(["getEntePorId", "getJogadoresDisponiveis"]),
 
     timeSelecionado() {
+      console.log( this.getEntePorId("times", this.$route.params.idtime))
       return this.getEntePorId("times", this.$route.params.idtime);
     },
     jogadoresNoTime() {
-      if (this.timeSelecionado.jogadores >= 1) {
+      if (!this.timeSelecionado ||
+        !this.timeSelecionado.jogadores ||
+          this.timeSelecionado.jogadores.length  >= 1) {
+         return [{ id: "404", nome: "nulo" }];
+         }
         return this.timeSelecionado.jogadores;
-      }
-      return [{ id: "404", nome: "nulo" }];
     },
     jogadoresDisponiveis() {
       return this.getJogadoresDisponiveis();
@@ -97,6 +97,9 @@ export default {
     this.$bus.on("FormUnselectJogador", () => {
       this.jogadorSelecionado = false;
     });
+  },
+  mounted(){
+    this.$store.dispatch("carregar")
   },
   unmounted() {
     this.$bus.off("FormAddJogador");
