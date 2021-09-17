@@ -128,6 +128,9 @@ export default {
           this[this.entidadenome]
         );
         this[this.entidadenome] = this.ente_novin();
+        this.$router.replace({
+          name: "ListaTimes",
+        });
       } else {
         await this.$store.dispatch(
           `editar${this.entidadenome}`,
@@ -135,22 +138,18 @@ export default {
         );
       }
 
-      this.$router.replace({
-        name: "home",
-      });
     },
 
     async apagar() {
       if (this.entidadenome !== "Jogador") {
         await this.$store.dispatch(`apagar${this.entidadenome}`, this.entidade);
         this.$router.push({
-          name: "home",
+          name: "ListaTimes",
         });
         return;
       }
       this.$bus.emit("FormDeleteJogador");
-
-      this.limparEntidade();
+ 
     },
 
     atualizaEditEntidade() {

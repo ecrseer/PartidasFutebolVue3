@@ -59,21 +59,15 @@ export default {
 
     this.$bus.on("FormEditJogador", (antigoEnovo) => {
       this.$store.dispatch("editarJogador", antigoEnovo);
-      this.$store.dispatch("editarTime", {
-        original: false,
-        editado: this.timeSelecionado,
-      });
+      
     });
     this.$bus.on("FormDeleteJogador", () => {
+      debugger
       this.$store.dispatch("apagarJogador", {
         time: this.timeSelecionado,
         jogador: this.jogadorSelecionado,
-      });
-      this.$store.dispatch("editarTime", {
-        original: false,
-        editado: this.timeSelecionado,
-      });
-      this.$router.go();
+      }); 
+       
     });
     /* 
     this.$bus.on("FormAddTime", (jogadr) => {

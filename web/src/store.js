@@ -22,26 +22,26 @@ const store = createStore({
         return enteFiltrado;
       }
     },
-    getJogadoresNoTime(state){
-      
-      return function(time){
-        if ( !time ||   !time.jogadores ||
+    getJogadoresNoTime(state) {
+
+      return function (time) {
+        if (!time || !time.jogadores ||
           time.jogadores.length <= 0
-          ) { 
-            return [{ id: "404", nome: "nulo" }];
-          }
-  
-        let jogadoresNoTime=[]
+        ) {
+          return [{ id: "404", nome: "nulo" }];
+        }
+
+        let jogadoresNoTime = []
         for (const jogador_id of time.jogadores) {
-          let jogadorEncontrado=
-          state.jogadores.filter(jogador=>jogador.id===jogador_id)[0]
-          
-          if(jogadorEncontrado){
+          let jogadorEncontrado =
+            state.jogadores.filter(jogador => jogador.id === jogador_id)[0]
+
+          if (jogadorEncontrado) {
             jogadoresNoTime.push(jogadorEncontrado)
           }
-        } 
+        }
         return jogadoresNoTime
-        
+
       }
     }
   },
@@ -72,7 +72,16 @@ const store = createStore({
       }
       state.carregando = false
     },
-    time_editar(state, { original, editado }) {
+    jogador_apagar(state, { time, jogador }) {
+      let index = state.jogadores.indexOf(jogador)
+      if (index >= 0) {
+        state.jogadores.splice(index, 1)
+      }
+     
+
+      state.carregando = false
+    },
+    obj_editar(state, { original, editado }) {
       Object.assign(original, editado)
       state.carregando = false
     },
@@ -81,7 +90,7 @@ const store = createStore({
       state.carregando = false
     },
     jogador_criar(state, jogador) {
-      state.jogadores.push(jogador) 
+      state.jogadores.push(jogador)
     }
   },
   actions: { // equivalente ao methods de um componente
@@ -105,11 +114,27 @@ const store = createStore({
       })
 
     },
-    async apagar({ commit }, time) {
+    async apagarTime({ commit }, time) {
       commit('carregando')
 
-      await axios.delete(`https://sheetdb.io/api/v1/cuyfdc2x1vwf4/id/${time.id}`)
+      await axios.delete(`${baseUrlApi.times}/${time.id}`)
       commit('time_apagar', time)
+
+    },
+    async apagarJogador({ commit }, { time, jogador }) {
+      commit('carregando')
+
+      await axios.delete(`${baseUrlApi.jogadores}/${jogador.id}`)
+      commit('jogador_apagar', { time, jogador })
+      let timeEncontrado = state.times.filter(tme => tme.id === time.id)[0]
+      if (timeEncontrado) {
+        let indJogadorEncontrado = timeEncontrado
+          .jogadores.indexOf(jogador)
+          if (index >= 0) {
+            timeEncontrado.jogadores.splice(indJogadorEncontrado, 1)
+          }   
+      }
+
 
     },
     async criarTime({ commit }, time) {
@@ -120,24 +145,24 @@ const store = createStore({
     },
     async criarJogador({ commit, dispatch }, { time, jogador }) {
       commit('carregando')
- 
+
       axios.post(
         `${baseUrlApi.jogadores}`, { ...jogador })
-        .then(({data}) => { 
-          debugger
+        .then(({ data }) => {
+           
           jogador.id = data.id
-          debugger
+           
           commit('jogador_criar', jogador)
         })
         .catch(er => console.log(er))
         .then(
           () => {
-            let timeEditado = {...time}
+            let timeEditado = { ...time }
             timeEditado.jogadores.push(jogador.id)
-            debugger
+             
             dispatch('editarTime', {
-              original:time,
-              editado:timeEditado
+              original: time,
+              editado: timeEditado
             })
           }
         )
@@ -149,7 +174,13 @@ const store = createStore({
       commit('carregando')
 
       await axios.put(`${baseUrlApi.times}/${editado.id}`, { ...editado })
-      commit('time_editar', { original, editado })
+      commit('obj_editar', { original, editado })
+    },
+    async editarJogador({ commit }, { original, editado }) {
+      commit('carregando')
+
+      await axios.put(`${baseUrlApi.jogadores}/${editado.id}`, { ...editado })
+      commit('obj_editar', { original, editado })
     }
 
   }
