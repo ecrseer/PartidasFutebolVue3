@@ -1,29 +1,25 @@
 <template>
-  <div class="d-flex flex-row justify-content-around  ">
-    
-      
-        
-          <Formulario
-            v-bind:istimef="true"
-            v-bind:entidade="timeSelecionado"
-            v-bind:entenome="'Time'"
-            class="m-5"
-            > 
-          </Formulario>
-         
-         
-          <TabelaGenerica
-            v-bind:lista="jogadoresNoTime"
-            :entenome="'Jogador'"
-          />
-         
-          <Formulario
-            v-bind:entenome="'Jogador'"
-            v-bind:entidade="jogadorSelecionado"
-            v-bind:entidadepai="timeSelecionado" />
-      
-      
-    
+  <div class="d-flex flex-row justify-content-around">
+    <div class="row">
+      <div class="col">
+        <Formulario
+          v-bind:istimef="true"
+          v-bind:entidade="timeSelecionado"
+          v-bind:entidadenome="'Time'"
+          class="m-5"
+        >
+        </Formulario>
+
+        <TabelaGenerica v-bind:lista="jogadoresNoTime" :entenome="'Jogador'" />
+      </div>
+      <div class="col">
+        <Formulario
+          v-bind:entidadenome="'Jogador'"
+          v-bind:entidade="jogadorSelecionado"
+          v-bind:entidadepai="timeSelecionado"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,19 +37,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getEntePorId", "getJogadoresDisponiveis"]),
+    ...mapGetters(["getEntePorId", "getJogadoresNoTime"]),
 
     timeSelecionado() {
-      console.log( this.getEntePorId("times", this.$route.params.idtime))
       return this.getEntePorId("times", this.$route.params.idtime);
     },
     jogadoresNoTime() {
-      if (!this.timeSelecionado ||
-        !this.timeSelecionado.jogadores ||
-          this.timeSelecionado.jogadores.length  >= 1) {
-         return [{ id: "404", nome: "nulo" }];
-         }
-        return this.timeSelecionado.jogadores;
+      return this.getJogadoresNoTime(this.timeSelecionado);
     },
     jogadoresDisponiveis() {
       return this.getJogadoresDisponiveis();
@@ -61,9 +51,12 @@ export default {
   },
   created() {
     this.$bus.on("FormAddJogador", (jogadr) => {
-      this.$store.dispatch("criarJogador", [this.timeSelecionado, jogadr]);
-       
+      this.$store.dispatch("criarJogador", {
+        time: this.timeSelecionado,
+        jogador: jogadr,
+      });
     });
+
     this.$bus.on("FormEditJogador", (antigoEnovo) => {
       this.$store.dispatch("editarJogador", antigoEnovo);
       this.$store.dispatch("editarTime", {
@@ -80,7 +73,7 @@ export default {
         original: false,
         editado: this.timeSelecionado,
       });
-      this.$router.go()
+      this.$router.go();
     });
     /* 
     this.$bus.on("FormAddTime", (jogadr) => {
@@ -98,8 +91,8 @@ export default {
       this.jogadorSelecionado = false;
     });
   },
-  mounted(){
-    this.$store.dispatch("carregar")
+  mounted() {
+    this.$store.dispatch("carregar");
   },
   unmounted() {
     this.$bus.off("FormAddJogador");

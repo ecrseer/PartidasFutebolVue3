@@ -1,4 +1,4 @@
-import {createStore} from 'vuex'
+import { createStore } from 'vuex'
 import axios from 'axios'
 import { baseUrlApi } from './const'
 
@@ -7,21 +7,43 @@ const store = createStore({
     return {
       carregando: false,
       times: [],
-      jogadores:[],
-      partidas:[],
-      gols:[]
+      jogadores: [],
+      partidas: [],
+      gols: []
     }
   },
   getters: { // equivalente ao computed de um componente
     getEntePorId(state) {
-      return function(entenome,idEnte){
-        
+      return function (entenome, idEnte) {
+
         let enteFiltrado = state[entenome].filter(
-            (ente) => `${ente.id}` === `${idEnte}`)[0]; 
-            debugger
-            return enteFiltrado;
+          (ente) => `${ente.id}` === `${idEnte}`)[0];
+
+        return enteFiltrado;
       }
     },
+    getJogadoresNoTime(state){
+      
+      return function(time){
+        if ( !time ||   !time.jogadores ||
+          time.jogadores.length <= 0
+          ) { 
+            return [{ id: "404", nome: "nulo" }];
+          }
+  
+        let jogadoresNoTime=[]
+        for (const jogador_id of time.jogadores) {
+          let jogadorEncontrado=
+          state.jogadores.filter(jogador=>jogador.id===jogador_id)[0]
+          
+          if(jogadorEncontrado){
+            jogadoresNoTime.push(jogadorEncontrado)
+          }
+        } 
+        return jogadoresNoTime
+        
+      }
+    }
   },
   mutations: { // altera o state
     carregando(state) {
@@ -50,57 +72,84 @@ const store = createStore({
       }
       state.carregando = false
     },
-    time_editar(state, {original, editado}) {
+    time_editar(state, { original, editado }) {
       Object.assign(original, editado)
       state.carregando = false
     },
     time_criar(state, time) {
       state.times.push(time)
       state.carregando = false
+    },
+    jogador_criar(state, jogador) {
+      state.jogadores.push(jogador) 
     }
   },
   actions: { // equivalente ao methods de um componente
-    async carregar({commit}) {
+    async carregar({ commit }) {
       commit('carregando')
-      axios.get(baseUrlApi.times).then(({data}) => {
-        console.log(baseUrlApi.times)
+      axios.get(baseUrlApi.times).then(({ data }) => {
+
         commit('time_carregado', data)
       })
-      axios.get(baseUrlApi.jogadores).then(({data}) => {
-        console.log(baseUrlApi.jogadores)
+      axios.get(baseUrlApi.jogadores).then(({ data }) => {
+
         commit('jogador_carregado', data)
       })
-      axios.get(baseUrlApi.gols).then(({data}) => {
-        console.log(baseUrlApi.gols)
+      axios.get(baseUrlApi.gols).then(({ data }) => {
+
         commit('gol_carregado', data)
       })
-      axios.get(baseUrlApi.partidas).then(({data}) => {
-        console.log(baseUrlApi.partidas)
+      axios.get(baseUrlApi.partidas).then(({ data }) => {
+
         commit('partida_carregado', data)
       })
-      
+
     },
-    async apagar({commit}, time) {
+    async apagar({ commit }, time) {
       commit('carregando')
- 
+
       await axios.delete(`https://sheetdb.io/api/v1/cuyfdc2x1vwf4/id/${time.id}`)
       commit('time_apagar', time)
 
     },
-    async criarTime({commit}, time) {
+    async criarTime({ commit }, time) {
       commit('carregando')
-      await axios.post( baseUrlApi.times, {...time} )
+      await axios.post(baseUrlApi.times, { ...time })
       commit('time_criar', time)
 
     },
-    async editar({commit}, {original, editado}) {
+    async criarJogador({ commit, dispatch }, { time, jogador }) {
+      commit('carregando')
+ 
+      axios.post(
+        `${baseUrlApi.jogadores}`, { ...jogador })
+        .then(({data}) => { 
+          debugger
+          jogador.id = data.id
+          debugger
+          commit('jogador_criar', jogador)
+        })
+        .catch(er => console.log(er))
+        .then(
+          () => {
+            let timeEditado = {...time}
+            timeEditado.jogadores.push(jogador.id)
+            debugger
+            dispatch('editarTime', {
+              original:time,
+              editado:timeEditado
+            })
+          }
+        )
+
+
+
+    },
+    async editarTime({ commit }, { original, editado }) {
       commit('carregando')
 
-      await axios.put(
-        `https://sheetdb.io/api/v1/cuyfdc2x1vwf4/id/${original.id}`,
-        {data: [editado]}
-      )
-      commit('time_editar', {original, editado})
+      await axios.put(`${baseUrlApi.times}/${editado.id}`, { ...editado })
+      commit('time_editar', { original, editado })
     }
 
   }

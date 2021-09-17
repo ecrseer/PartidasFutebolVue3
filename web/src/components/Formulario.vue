@@ -1,8 +1,8 @@
 <template>
   <form v-on:submit.prevent="onSubmit">
     <div>
-      <h2 v-if="entidade">Editar {{ entenome }}</h2>
-      <h2 v-else>Criar {{ entenome }}</h2>
+      <h2 v-if="entidade">Editar {{ entidadenome }}</h2>
+      <h2 v-else>Criar {{ entidadenome }}</h2>
 
       <section v-if="istimef">
         <Campo nome="nome" v-model="Time.nome"></Campo>
@@ -35,11 +35,14 @@
         <span class="visually-hidden">Loading...</span>
       </div>
 
-
       <div v-else>
-        <button class="btn btn-success" @click="salvar" id="test_btnsalvar">salvar</button>
+        <button class="btn btn-success" @click="salvar" id="test_btnsalvar">
+          salvar
+        </button>
         <div v-if="entidade">
-          <button  class="btn btn-danger" color="error" @click="apagar">apagar</button>
+          <button class="btn btn-danger" color="error" @click="apagar">
+            apagar
+          </button>
         </div>
       </div>
     </div>
@@ -55,7 +58,7 @@ import { ESTADOS, useSheetApi } from "../const.js";
 export default {
   name: "Formulario",
   components: { Campo, CampoDropDown, CampoText },
-  props: ["entidade", "istimef", "entenome", "entidadepai"],
+  props: ["entidade", "istimef", "entidadenome", "entidadepai"],
   data() {
     return {
       editando: false,
@@ -68,16 +71,21 @@ export default {
     ...mapState(["carregando"]),
     ...mapGetters(["getUltimoEnteId"]),
     incrementaId() {
-      if (this.entenome === "Time") return this.getUltimoEnteId("times");
+      if (this.entidadenome === "Time") return this.getUltimoEnteId("times");
 
       return this.getUltimoEnteId("jogadores");
+    },
+    payloadEdicaoGenerico(){
+      return {
+        original: this.entidade,
+        editado: this[this.entidadenome],
+      };
     },
   },
   methods: {
     ente_novin() {
-      if (this.entenome === "Time") {
+      if (this.entidadenome === "Time") {
         return {
-          
           nome: "",
           estado: "",
           tecnico: "",
@@ -88,7 +96,6 @@ export default {
         };
       }
       return {
-        
         nome: "",
         camisa: 0,
         salario: "$0.0",
@@ -97,37 +104,34 @@ export default {
     },
     limparEntidade() {
       this.$bus.emit("FormUnselectJogador");
-      this[this.entenome] = this.ente_novin();
+      this[this.entidadenome] = this.ente_novin();
     },
-    handleSalvarEditarEntidadeInterior(payloadEdicao) {
+    handleSalvarEditarEntidadeInterior() {
       if (!this.entidade) {
         this.$bus.emit("FormAddJogador", this.Jogador);
-        this[this.entenome] = this.ente_novin();
+        this[this.entidadenome] = this.ente_novin();
       } else {
-        this.$bus.emit("FormEditJogador", payloadEdicao);
+        this.$bus.emit("FormEditJogador", this.payloadEdicaoGenerico);
       }
     },
     async salvar() {
-      let payloadEdicaoGenerico = {
-        original: this.entidade,
-        editado: this[this.entenome],
-      };
+      
 
       if (this.entidadepai) {
-        this.handleSalvarEditarEntidadeInterior(payloadEdicaoGenerico);
+        this.handleSalvarEditarEntidadeInterior();
         return;
       }
 
       if (!this.entidade) {
         await this.$store.dispatch(
-          `criar${this.entenome}`,
-          this[this.entenome]
+          `criar${this.entidadenome}`,
+          this[this.entidadenome]
         );
-        this[this.entenome] = this.ente_novin();
+        this[this.entidadenome] = this.ente_novin();
       } else {
         await this.$store.dispatch(
-          `editar${this.entenome}`,
-          payloadEdicaoGenerico
+          `editar${this.entidadenome}`,
+          this.payloadEdicaoGenerico
         );
       }
 
@@ -137,8 +141,8 @@ export default {
     },
 
     async apagar() {
-      if (this.entenome !== "Jogador") {
-        await this.$store.dispatch(`apagar${this.entenome}`, this.entidade);
+      if (this.entidadenome !== "Jogador") {
+        await this.$store.dispatch(`apagar${this.entidadenome}`, this.entidade);
         this.$router.push({
           name: "home",
         });
@@ -151,7 +155,7 @@ export default {
 
     atualizaEditEntidade() {
       if (this.entidade) {
-        this[this.entenome] = { ...this.entidade };
+        this[this.entidadenome] = { ...this.entidade };
       } else {
         this.limparEntidade();
       }
