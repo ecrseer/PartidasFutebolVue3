@@ -27,7 +27,7 @@
         <Campo nome="posicao" v-model="Jogador.posicao"></Campo>
         <CampoDropDown
           nome="estado"
-          v-model="Time.estado"
+          v-model="Jogador.estado"
           :itens="ESTADOS"
         ></CampoDropDown>
       </section>
@@ -95,6 +95,7 @@ export default {
         camisa: 0,
         salario: "$0.0",
         posicao: "",
+        estado:""
       };
     },
     limparEntidade() {
@@ -121,7 +122,7 @@ export default {
           this[this.entidadenome]
         );
         this.limparEntidade();
-        
+
         this.$router.replace({
           name: "ListaTimes",
         });
@@ -142,6 +143,7 @@ export default {
         return;
       }
       this.$bus.emit("FormDeleteJogador");
+        this.limparEntidade()
     },
 
     atualizaEditEntidade() {

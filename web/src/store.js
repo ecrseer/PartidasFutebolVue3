@@ -28,18 +28,12 @@ const store = createStore({
         if (!time || !time.jogadores ||
           time.jogadores.length <= 0
         ) {
-          return [{ id: "404", nome: "nulo" }];
+          return [];
         }
 
         let jogadoresNoTime = []
-        for (const jogador_id of time.jogadores) {
-          let jogadorEncontrado =
-            state.jogadores.filter(jogador => jogador.id === jogador_id)[0]
-
-          if (jogadorEncontrado) {
-            jogadoresNoTime.push(jogadorEncontrado)
-          }
-        }
+        jogadoresNoTime = state.jogadores.filter(jogador=>jogador.time_id===time.id)
+        
         return jogadoresNoTime
 
       }
