@@ -42,9 +42,9 @@ const store = createStore({
       return function GolsByTime(time) {
         let partidasDoTime = {}
         function adicionaGolDasPartidas(golPartida_id){
-          if(!partidasDoTime[golPartida_id]){
-            let estruturaPartidaComGols = { 
-              gols:0,              }
+          let PrimeiraVezQuePartidaEhCadastrada = !partidasDoTime[golPartida_id]
+          if(PrimeiraVezQuePartidaEhCadastrada){
+            let estruturaPartidaComGols = {  gols:0}
             partidasDoTime[golPartida_id] = estruturaPartidaComGols
           }
           partidasDoTime[golPartida_id].gols++ 
@@ -85,20 +85,7 @@ const store = createStore({
         return timeEncontrado || { nome: '404' }
       }
     },
-    zzzgetGolsTimeNaPartida(state){
-      return function (time) {
-        let nGols = 0;
-        time.jogadores.forEach((jogadr) => {
-          for (const gol of state.gols) {
-            if (gol.jogador_id === jogadr) {
-              nGols++
-            }
-          }
-        })
-
-        return nGols;
-      }
-    }
+     
   },
 
   mutations: { // altera o state

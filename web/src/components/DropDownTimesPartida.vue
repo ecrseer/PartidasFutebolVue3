@@ -12,18 +12,13 @@ import { mapGetters } from 'vuex';
 import CampoDropDown from "./CampoDropDown.vue";
 export default {
   components: { CampoDropDown },
-  name: "DropDownGolsJogador",
+  name: "DropDownTimesPartida",
     props: ["timesDaPartida"],
   data: () => {
     return {
       idTimeSelect: "",
       idJogadorSelect:""
     };
-  },
-  watch:{
-    timesDaPartida(prev,next){
-      //to do: se os dois times mudarem campos devem ser limpos
-    }
   },
   computed: {    
     ...mapGetters(["getJogadoresNoTime"]), 
