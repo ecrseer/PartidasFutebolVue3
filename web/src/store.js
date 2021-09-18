@@ -23,7 +23,6 @@ const store = createStore({
       }
     },
     getJogadoresNoTime(state) {
-
       return function (time) {
         if (!time || !time.jogadores ||
           time.jogadores.length <= 0

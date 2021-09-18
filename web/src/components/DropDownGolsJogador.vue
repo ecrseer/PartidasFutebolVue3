@@ -1,48 +1,45 @@
 <template>
   <div class="col-12">
-    {{ tSelecionado.nome }}
-    <CampoDropDown v-model="tSelecionado" :itens="timesPossiveis" />
+    <div class="times">
+    
+    <CampoDropDown v-model="idTimeSelect" :itens="timesPossiveis" />
+    <CampoDropDown v-model="idJogadorSelect" :itens="jogadoresNesseTime" />
+    
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import CampoDropDown from "./CampoDropDown.vue";
 export default {
   components: { CampoDropDown },
   name: "DropDownGolsJogador",
   data: () => {
     return {
-      timesPossiveis: [
-        {
-          nome: "Chapeucoense",
-          estado: "",
-          tecnico: "",
-          torcida: "",
-          fundacao_ano: "",
-          info: "",
-          jogadores: [11, 13],
-          id: 1,
-        },
-        {
-          nome: "Victoria",
-          estado: "",
-          tecnico: "",
-          torcida: "",
-          fundacao_ano: "",
-          info: "",
-          jogadores: [12, 14],
-          id: 2,
-        },
-      ],
-      tSelecionado: "",
+      idTimeSelect: "",
+      idJogadorSelect:""
     };
   },
-  computed: {
-    doisTimes() {
+  computed: {    
+    ...mapGetters(["getJogadoresNoTime"]), 
+    timeSelecionado() {
+      let timeEncontrado = this.timesDaPartida?.filter(timsP=>
+        `${timsP.id}`===this.idTimeSelect)[0]
+        
+      return timeEncontrado || {'nome':'404'};
+    },
+    jogadorSelecionado(){
+      let jogadorEncontrado = this.jogadoresNesseTime?.filter(timsP=>
+        `${timsP.id}`===this.idJogadorSelect)[0]
+        
+      return jogadorEncontrado || {'nome':'404'};
+    },
+    timesPossiveis(){
       return this.timesDaPartida;
     },
-    tmeSelecionado() {
-      return this.tSelecionado;
+    jogadoresNesseTime() {
+      return this.getJogadoresNoTime(this.timeSelecionado || {});
     },
   },
   props: ["jogadoresDoTime", "timesDaPartida"],
