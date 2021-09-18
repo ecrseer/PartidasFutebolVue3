@@ -39,16 +39,18 @@ const store = createStore({
       }
     },
     getGolsTime(state) {
-      let partidasDoTime = {}
-      function adicionaGolNaPartidas(golPartida_id){
-        if(!partidasDoTime[golPartida_id]){
-          let estruturaPartidaComGols = { gols:0  }
-          partidasDoTime[golPartida_id] = estruturaPartidaComGols
-        }
-        partidasDoTime[golPartida_id].gols++ 
-      }
+      
       return function (time) {
+        let partidasDoTime = {}
+        function adicionaGolNaPartidas(golPartida_id){
+          if(!partidasDoTime[golPartida_id]){
+            let estruturaPartidaComGols = { gols:0  }
+            partidasDoTime[golPartida_id] = estruturaPartidaComGols
+          }
+          partidasDoTime[golPartida_id].gols++ 
+        }
         let nGolsTodasPartidas = 0;
+        
         time.jogadores.forEach((jogadr) => {
           for (const gol of state.gols) {
 
