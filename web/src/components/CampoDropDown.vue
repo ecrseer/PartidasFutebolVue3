@@ -2,13 +2,13 @@
   <div class="col-12">
     <label :for="nome"  class="form-label">{{ nome }}</label>
     <select
-      class="form-select"
-      multiple aria-label="multiple select example" size="1"
+      class="form-select" 
       :id="nome"
       :placeholder="nome"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)">
-      <option v-for="item in itens" :key="item" :value="item">{{ item }}</option>
+      <option v-for="item in itens" :key="item" :value="item.id">
+        {{ item.nome || item}}</option>
     </select>
   </div>
 </template>

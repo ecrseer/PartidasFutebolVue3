@@ -40,11 +40,12 @@ const store = createStore({
     },
     getGolsTime(state) {
       
-      return function (time) {
+      return function GolsByTime(time) {
         let partidasDoTime = {}
-        function adicionaGolNaPartidas(golPartida_id){
+        function adicionaGolDasPartidas(golPartida_id){
           if(!partidasDoTime[golPartida_id]){
-            let estruturaPartidaComGols = { gols:0  }
+            let estruturaPartidaComGols = { 
+              gols:0,              }
             partidasDoTime[golPartida_id] = estruturaPartidaComGols
           }
           partidasDoTime[golPartida_id].gols++ 
@@ -57,17 +58,17 @@ const store = createStore({
             let achouGolDoTime = gol.jogador_id === jogadr
             if (achouGolDoTime) {
               nGolsTodasPartidas++;
-              adicionaGolNaPartidas(gol.partida_id)
+              adicionaGolDasPartidas(gol.partida_id)
             }
           }
         })
         //debugger
         return {total:nGolsTodasPartidas,partidasDoTime} ;
-        ;
+        
       }
     },
     getGolsJogador(state) {
-      return function (jogador) {
+      return function GolsByJogador(jogador) {
         let nGols = 0;
         for (const gol of state.gols) {
           if (gol.jogador_id === jogador.id) {

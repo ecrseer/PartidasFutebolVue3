@@ -23,29 +23,35 @@
           v-bind:entidadepai="timeSelecionado"
         />
       </div> -->
+      <DropDownGolsJogador :timesDaPartida="timesSelecionadosPartida"/>
+      <button v-on:click="testeProp">ttt</button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import DropDownGolsJogador from '../components/DropDownGolsJogador.vue';
 import Formulario from "../components/Formulario.vue";
 import ListaCards from "../components/ListaCards.vue";
 import TabelaGenerica from "../components/TabelaGenerica.vue";
 
 export default {
   name:'CriarPartida',
-  components: { Formulario, TabelaGenerica, ListaCards },
+  components: { Formulario, TabelaGenerica, ListaCards, DropDownGolsJogador },
   data: () => {
     return {
       jogadorSelecionado: false,
+      timeSelecionado:false,
+      timesSelecionadosPartida:[]
     };
   },
   computed: {
-    ...mapGetters(["getEntePorId", "getJogadoresNoTime","getGolsJogador"]),
+    ...mapGetters(["getEntePorId", 
+    "getJogadoresNoTime","getGolsJogador"]),
 
-    timeSelecionado() {
-      return this.getEntePorId("times", this.$route.params.idtime);
+    timeSelecionado2() {
+      return this.getEntePorId("times", 1);
     },
     jogadoresNesseTime() {
       return this.getJogadoresNoTime(this.timeSelecionado);
@@ -88,6 +94,15 @@ export default {
   },
   mounted() {
     this.$store.dispatch("carregar");
+  },
+  methods:{
+    testeProp(){
+      this.timeSelecionado = this.getEntePorId("times",1)
+      this.timesSelecionadosPartida.push(this.timeSelecionado)
+
+      this.timeSelecionado = this.getEntePorId("times",2)
+      this.timesSelecionadosPartida.push(this.timeSelecionado)
+    }
   },
   unmounted() {
     this.$bus.off("FormAddJogador");
