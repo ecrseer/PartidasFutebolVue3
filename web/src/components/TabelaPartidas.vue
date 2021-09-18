@@ -17,7 +17,8 @@
           v-bind:class="partida === entidadeSelecionada ? 'table-primary' : ''"
         >
           <td>
-            {{ timeById(partida.time_casa).nome || partida.time_casa || "" }}
+            {{ timeById(partida.time_casa).nome || 
+            partida.time_casa || "" }}
           </td>
           <td>
             {{
@@ -35,8 +36,7 @@
           <td>
             {{
               timeById(partida.time_visitante).nome ||
-              partida.time_visitante ||
-              ""
+              partida.time_visitante || ""
             }}
           </td>
           <td>

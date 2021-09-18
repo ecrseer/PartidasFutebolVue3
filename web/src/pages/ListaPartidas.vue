@@ -1,5 +1,10 @@
 <template>
+ <div class="d-flex flex-column">
+
   <TabelaPartidas  :lista="partidas"  :gGolsTime="getGolsTime"/> 
+  <router-link class="btn btn-primary"
+  to="/partidas/criar">Cadastrar partida</router-link>
+ </div>
 </template>
 
 <script>
