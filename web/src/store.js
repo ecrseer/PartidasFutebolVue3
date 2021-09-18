@@ -39,17 +39,29 @@ const store = createStore({
       }
     },
     getGolsTime(state) {
+      let partidasDoTime = {}
+      function adicionaGolNaPartidas(golPartida_id){
+        if(!partidasDoTime[golPartida_id]){
+          let estruturaPartidaComGols = { gols:0  }
+          partidasDoTime[golPartida_id] = estruturaPartidaComGols
+        }
+        partidasDoTime[golPartida_id].gols++ 
+      }
       return function (time) {
-        let nGols = 0;
+        let nGolsTodasPartidas = 0;
         time.jogadores.forEach((jogadr) => {
           for (const gol of state.gols) {
-            if (gol.jogador_id === jogadr) {
-              nGols++
+
+            let achouGolDoTime = gol.jogador_id === jogadr
+            if (achouGolDoTime) {
+              nGolsTodasPartidas++;
+              adicionaGolNaPartidas(gol.partida_id)
             }
           }
         })
-
-        return nGols;
+        //debugger
+        return {total:nGolsTodasPartidas,partidasDoTime} ;
+        ;
       }
     },
     getGolsJogador(state) {
@@ -69,6 +81,20 @@ const store = createStore({
         let timeEncontrado =
           state.times.filter(tme => tme.id === idTime)[0]
         return timeEncontrado || { nome: '404' }
+      }
+    },
+    zzzgetGolsTimeNaPartida(state){
+      return function (time) {
+        let nGols = 0;
+        time.jogadores.forEach((jogadr) => {
+          for (const gol of state.gols) {
+            if (gol.jogador_id === jogadr) {
+              nGols++
+            }
+          }
+        })
+
+        return nGols;
       }
     }
   },

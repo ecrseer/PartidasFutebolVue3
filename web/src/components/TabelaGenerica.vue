@@ -19,7 +19,7 @@
           <span v-if="CampoDeveAparecer(atributo,key)">{{atributo}}</span>
         </td>
         <td >
-          {{golsTime(item)}}
+          {{golsTime(item).total}}
         </td>
           
         <td>

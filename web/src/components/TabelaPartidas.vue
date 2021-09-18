@@ -16,7 +16,7 @@
           Time visitante
         </th>
         <th >
-          opts
+          ----
         </th>
       </tr>
     </thead>
@@ -27,10 +27,14 @@
             || partida.time_casa || '' }}
         </td>
         <td >
-          007
+          {{
+              golsTime(
+                timeById(partida.time_casa)
+              ).partidasDoTime[partida.id].gols
+              }}
         </td>
         <td >
-          007
+          
         </td>
           
         <td>{{timeById(partida.time_visitante).nome
@@ -50,17 +54,20 @@
 import {  mapGetters, mapState } from "vuex";
 export default {
   name: "TabelaPartidas",
-  props: ["lista", "entidadenome"],
+  props: ["lista", "entidadenome","gGolsTime"],
   data: () => {
     return {
       entidadeSelecionada: {},
     };
   }, 
   computed:{
-      ...mapGetters(['getTimeById']),
+      ...mapGetters(['getTimeById','getGolsTime']),
       timeById(){
           return idTime => this.getTimeById(idTime)           
       },
+      golsTime(){
+          return time => this.getGolsTime(time)
+      }
   },
   methods: {
     editar(item) {

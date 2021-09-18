@@ -1,5 +1,5 @@
 <template>
-  <TabelaPartidas  :lista="partidas"  /> 
+  <TabelaPartidas  :lista="partidas"  :gGolsTime="getGolsTime"/> 
 </template>
 
 <script>
