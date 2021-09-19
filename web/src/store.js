@@ -38,43 +38,33 @@ const store = createStore({
       }
     },
     getGolsJogadorTimeParaPartida(state,getters){
-      return function getGolsJogadorByTime(timeDaPartida){
-        let lcd = getters.getGolsTime;
-        debugger
-        let indexT = state.times.indexOf(timeDaPartida)
-        let timeState = state.times[indexT]
-
-        if(!timeState || !timeState.jogadores ||
-           timeState.jogadores.length<=0){
-             return {}
-                   }
-            
-        for (const jogador of timeState.jogadores) {
-          let TodosGolsDesseJogador = state.gols.map(
-            gol=>gol.jogador_id===jogador.id)
-            let GolsDessaPartida = 2
-
-            
-          }
+      return function getGolsJogadorByTime(timeDaPartida,jogadorDaPartida){
+         let result = getters.getGolsTime(timeDaPartida,jogadorDaPartida)
+         debugger
         //{jogador:x gols:x time:x}
       } 
     },
     getGolsTime(state) {
       
-      return function GolsByTime(time) {
+      return function GolsByTime(time,
+        jogadoresRequisitados = time.jogadores) {
         let partidasDoTime = {}
 
         function adicionaGolDasPartidas(golPartida_id){
           let PrimeiraVezQuePartidaEhCadastrada = !partidasDoTime[golPartida_id]
           if(PrimeiraVezQuePartidaEhCadastrada){
-            let estruturaPartidaComGols = {  gols:0}
+            let estruturaPartidaComGols = {  
+              TotalGolsDaPartida:0, jogadores:{}  
+             }
             partidasDoTime[golPartida_id] = estruturaPartidaComGols
           }
-          partidasDoTime[golPartida_id].gols++ 
+          partidasDoTime[golPartida_id].TotalGolsDaPartida++ 
         }
 
-        let nGolsTodasPartidas = 0;        
-        time.jogadores.forEach((jogadr) => {
+        let nGolsTodasPartidas = 0;  
+        if(!jogadoresRequisitados) return {}
+
+        jogadoresRequisitados.forEach((jogadr) => {
           for (const gol of state.gols) {
 
             let achouGolDoTime = gol.jogador_id === jogadr

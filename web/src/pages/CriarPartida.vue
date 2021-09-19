@@ -23,10 +23,10 @@
           v-bind:entidadepai="timeSelecionado"
         />
       </div> -->
-      <!-- <TabelaGolsJogadorTime :lista="timesSelecionadosPartida"/> -->
+      <TabelaGolsJogadorTime :lista="timesSelecionadosPartida"/>
       <!-- <DropDownTimesPartida :timeA="idTimeA" :timeB="idTimeB"  :timesDaPartida="{}"/> -->
       <DropDownGolsJogador :timesDaPartida="timesSelecionadosPartida"/>
-      <button v-on:click="testeProp">ttt</button>
+      
     </div>
   </div>
 </template>

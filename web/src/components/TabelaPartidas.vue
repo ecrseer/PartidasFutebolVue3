@@ -17,30 +17,27 @@
           v-bind:class="partida === entidadeSelecionada ? 'table-primary' : ''"
         >
           <td>
-            {{ timeById(partida.time_casa).nome || 
-            partida.time_casa || "" }}
+            {{ timeById(partida.time_casa).nome || partida.time_casa || "" }}
           </td>
           <td>
             {{
-              golsTime(
-                  timeById(partida.time_casa)
-                  ).partidasDoTime[partida.id]?.gols
-                   || 0
+              golsDaPartidaTime(partida.time_casa, partida.id)
             }}
           </td>
-          <td>{{ golsTime(
-              timeById(partida.time_visitante)
-              ).partidasDoTime[partida.id]?.gols 
-              || 0 }}</td>
+          <td>{{ golsDaPartidaTime(partida.time_visitante, partida.id)
+             }}</td>
 
           <td>
             {{
               timeById(partida.time_visitante).nome ||
-              partida.time_visitante || ""
+              partida.time_visitante ||
+              ""
             }}
           </td>
           <td>
-            <button class="colorido" @click="editar(partida)">to do(editar)</button>
+            <button class="colorido" @click="editar(partida)">
+              to do(editar)
+            </button>
           </td>
         </tr>
       </tbody>
@@ -66,10 +63,30 @@ export default {
     golsTime() {
       return (time) => this.getGolsTime(time);
     },
+    golsDaPartidaTime() {
+      return (idTimeNaPartida, idPartida) => {
+        let golsDesseTimeComPartidas = this.getGolsTime(
+          this.timeById(idTimeNaPartida)
+        );
+
+        let partidaNaoEncontrada =
+          !golsDesseTimeComPartidas ||
+          !golsDesseTimeComPartidas.partidasDoTime ||
+          !golsDesseTimeComPartidas.partidasDoTime[idPartida];
+
+        if (partidaNaoEncontrada) {
+          return 0;
+        }
+        return (
+          golsDesseTimeComPartidas.partidasDoTime[idPartida]
+            ?.TotalGolsDaPartida || 0
+        );
+      };
+    },
   },
   methods: {
     editar(item) {
-     /*  if (this.entidadenome === "Jogador") {
+      /*  if (this.entidadenome === "Jogador") {
         if (this.entidadeSelecionada === item) {
           this.$bus.emit("FormUnselectJogador");
           this.entidadeSelecionada = {};

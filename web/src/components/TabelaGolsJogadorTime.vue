@@ -10,7 +10,7 @@
         <th >
           qtd. gols
         </th> -->
-          <th>ttt</th>
+          <th>ttt {{gTimeGo}}</th>
         </tr>
       </thead>
       <tbody id="test_tabela" class="table-dark">
@@ -44,14 +44,16 @@ export default {
     };
   },
   computed: {
-      ...mapGetters(['getGolsJogadorTimeParaPartida'])
+      ...mapGetters(['getGolsTime']),
+      gTimeGo() {
+      if(this.lista[0]){
+          return this.getGolsTime(this.lista[0])
+      }
+      else return 0;
+    },
   },
   methods: {
-    gTimeGo() {
-      return this.lista[0]
-        ? this.getGolsJogadorTimeParaPartida(this.lista[0])
-        : 0;
-    },
+    
     editar(item) {
       if (this.entidadenome === "Jogador") {
         if (this.entidadeSelecionada === item) {
