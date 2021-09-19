@@ -13,7 +13,7 @@
         <TabelaGenerica
           v-bind:lista="jogadoresNesseTime"
           :entidadenome="'Jogador'"
-          :golsTime="getGolsJogador"
+          :golsTime="getTotalGolsJogador"
         />
       </div>
       <div class="col">
@@ -23,7 +23,8 @@
           v-bind:entidadepai="timeSelecionado"
         />
       </div> -->
-      <DropDownTimesPartida :timeA="idTimeA" :timeB="idTimeB"  :timesDaPartida="{}"/>
+      <!-- <TabelaGolsJogadorTime :lista="timesSelecionadosPartida"/> -->
+      <!-- <DropDownTimesPartida :timeA="idTimeA" :timeB="idTimeB"  :timesDaPartida="{}"/> -->
       <DropDownGolsJogador :timesDaPartida="timesSelecionadosPartida"/>
       <button v-on:click="testeProp">ttt</button>
     </div>
@@ -37,28 +38,42 @@ import DropDownTimesPartida from '../components/DropDownTimesPartida.vue';
 import Formulario from "../components/Formulario.vue";
 import ListaCards from "../components/ListaCards.vue";
 import TabelaGenerica from "../components/TabelaGenerica.vue";
+import TabelaGolsJogadorTime from '../components/TabelaGolsJogadorTime.vue';
 
 export default {
   name:'CriarPartida',
-  components: { Formulario, TabelaGenerica, ListaCards, DropDownGolsJogador, DropDownTimesPartida },
+  components: { Formulario, TabelaGenerica, ListaCards, DropDownGolsJogador, DropDownTimesPartida, TabelaGolsJogadorTime },
   data: () => {
     return {
       jogadorSelecionado: false,
-      timeSelecionado:false,
-      timesSelecionadosPartida:[],
+      timeSelecionado:false, 
       idTimeA:false,
       idTimeB:false,
     };
   },
   computed: {
     ...mapGetters(["getEntePorId", 
-    "getJogadoresNoTime","getGolsJogador"]),
+    "getJogadoresNoTime","getTotalGolsJogador"]),
 
     timeSelecionado2() {
       return this.getEntePorId("times", 1);
     },
     jogadoresNesseTime() {
       return this.getJogadoresNoTime(this.timeSelecionado);
+    },
+    timesSelecionadosPartida(){
+      let parTimes = []
+      let time = this.getEntePorId("times",1)
+        if(time){
+          parTimes.push(time)
+        }
+        
+        time = this.getEntePorId("times",2)
+        if(time){
+          parTimes.push(time)
+        }
+        return parTimes
+        
     },
   },
   created() {
@@ -96,18 +111,11 @@ export default {
       this.jogadorSelecionado = false;
     });
   },
-    methods:{
-      testeProp(){
-        this.timeSelecionado = this.getEntePorId("times",1)
-        this.timesSelecionadosPartida.push(this.timeSelecionado)
-  
-        this.timeSelecionado = this.getEntePorId("times",2)
-        this.timesSelecionadosPartida.push(this.timeSelecionado)
-      }
-    },
+     
   mounted() {
-    this.$store.dispatch("carregar");
-    this.testeProp()
+    this.$store.dispatch("carregar")
+     
+    
   },
   unmounted() {
     this.$bus.off("FormAddJogador");

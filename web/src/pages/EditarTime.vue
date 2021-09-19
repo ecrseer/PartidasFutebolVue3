@@ -13,7 +13,7 @@
         <TabelaGenerica
           v-bind:lista="jogadoresNesseTime"
           :entidadenome="'Jogador'"
-          :golsTime="getGolsJogador"
+          :golsTime="getTotalGolsJogador"
         />
       </div>
       <div class="col">
@@ -41,7 +41,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getEntePorId", "getJogadoresNoTime","getGolsJogador"]),
+    ...mapGetters(["getEntePorId", "getJogadoresNoTime","getTotalGolsJogador"]),
 
     timeSelecionado() {
       return this.getEntePorId("times", this.$route.params.idtime);

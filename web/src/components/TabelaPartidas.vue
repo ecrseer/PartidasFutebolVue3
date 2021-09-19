@@ -40,7 +40,7 @@
             }}
           </td>
           <td>
-            <button class="colorido" @click="editar(partida)">editar</button>
+            <button class="colorido" @click="editar(partida)">to do(editar)</button>
           </td>
         </tr>
       </tbody>
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     editar(item) {
-      if (this.entidadenome === "Jogador") {
+     /*  if (this.entidadenome === "Jogador") {
         if (this.entidadeSelecionada === item) {
           this.$bus.emit("FormUnselectJogador");
           this.entidadeSelecionada = {};
@@ -85,7 +85,7 @@ export default {
 
       this.$router.push({
         path: `/${rota_ente}/editar/${item.id}`,
-      });
+      }); */
     },
   },
   unmounted() {
