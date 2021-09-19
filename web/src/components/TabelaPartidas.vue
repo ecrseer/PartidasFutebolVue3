@@ -86,6 +86,7 @@ export default {
   },
   methods: {
     editar(item) {
+      
       /*  if (this.entidadenome === "Jogador") {
         if (this.entidadeSelecionada === item) {
           this.$bus.emit("FormUnselectJogador");

@@ -10,7 +10,7 @@
         <th >
           qtd. gols
         </th> -->
-          <th>ttt {{gTimeGo}}</th>
+          <th>ttt {{jogadoresDessaPartida}}</th>
         </tr>
       </thead>
       <tbody id="test_tabela" class="table-dark">
@@ -40,17 +40,21 @@ export default {
   props: ["lista", "entidadenome", "golsTime"],
   data: () => {
     return {
-      entidadeSelecionada: {},
+      entidadeSelecionada: { },
+      IdPartidaAtual:1000
     };
   },
   computed: {
-      ...mapGetters(['getGolsTime']),
-      gTimeGo() {
+      ...mapGetters(['getGolsTime','getEntePorId']),
+      jogadoresDessaPartida() {
       if(this.lista[0]){
           return this.getGolsTime(this.lista[0])
+          .partidasDoTime[this.IdPartidaAtual].jogadores
       }
       else return 0;
     },
+    
+
   },
   methods: {
     

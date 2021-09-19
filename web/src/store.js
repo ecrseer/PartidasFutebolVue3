@@ -18,7 +18,7 @@ const store = createStore({
 
         let enteFiltrado = state[entenome].filter(
           (ente) => `${ente.id}` === `${idEnte}`)[0];
-          
+
         return enteFiltrado;
       }
     },
@@ -37,47 +37,67 @@ const store = createStore({
 
       }
     },
-    getGolsJogadorTimeParaPartida(state,getters){
-      return function getGolsJogadorByTime(timeDaPartida,jogadorDaPartida){
-         let result = getters.getGolsTime(timeDaPartida,jogadorDaPartida)
-         debugger
+    getGolsJogadorTimeParaPartida(state, getters) {
+      return function getGolsJogadorByTime(timeDaPartida, jogadorDaPartida) {
+        let result = getters.getGolsTime(timeDaPartida, jogadorDaPartida)
+        debugger
         //{jogador:x gols:x time:x}
-      } 
+      }
     },
     getGolsTime(state) {
-      
-      return function GolsByTime(time,
-        jogadoresRequisitados = time.jogadores) {
-        let partidasDoTime = {}
 
-        function adicionaGolDasPartidas(golPartida_id){
+    return function GolsByTime(time,
+      jogadoresRequisitados = time.jogadores) 
+      {
+      let partidasDoTime = {}
+
+        function inicializaRegistroPartidas(golPartida_id){
           let PrimeiraVezQuePartidaEhCadastrada = !partidasDoTime[golPartida_id]
-          if(PrimeiraVezQuePartidaEhCadastrada){
-            let estruturaPartidaComGols = {  
-              TotalGolsDaPartida:0, jogadores:{}  
-             }
+          if (PrimeiraVezQuePartidaEhCadastrada) {
+            let estruturaPartidaComGols = {
+              TotalGolsDaPartida: 0, jogadores: {}
+            }
             partidasDoTime[golPartida_id] = estruturaPartidaComGols
           }
-          partidasDoTime[golPartida_id].TotalGolsDaPartida++ 
+        }
+        function inicializaRegistroJogadorDaPartida(golPartida_id,idJogador){
+          let PrimeiraVezQueJogadorEhCadastrado = !partidasDoTime[golPartida_id]
+            .jogadores[idJogador]
+          if (PrimeiraVezQueJogadorEhCadastrado) {
+            let estruturaPartidaDoJogador = {              
+              gols: 0
+            }
+            partidasDoTime[golPartida_id].jogadores[idJogador] =
+              estruturaPartidaDoJogador
+          }
+        }
+        function adicionaGolDasPartidas(golPartida_id,idJogador) {         
+          inicializaRegistroPartidas(golPartida_id)
+          inicializaRegistroJogadorDaPartida(golPartida_id,idJogador)
+
+          partidasDoTime[golPartida_id].TotalGolsDaPartida++
+          partidasDoTime[golPartida_id].jogadores[idJogador].gols++;
+
         }
 
-        let nGolsTodasPartidas = 0;  
-        if(!jogadoresRequisitados) return {}
+      let nGolsTodasPartidas = 0;
+      if (!jogadoresRequisitados) return {}
 
-        jogadoresRequisitados.forEach((jogadr) => {
-          for (const gol of state.gols) {
+      jogadoresRequisitados.forEach((idJogador) => {
+        for (const gol of state.gols) {
 
-            let achouGolDoTime = gol.jogador_id === jogadr
-            if (achouGolDoTime) {
-              nGolsTodasPartidas++;
-              adicionaGolDasPartidas(gol.partida_id)
-            }
+          let achouGolDoTime = gol.jogador_id === idJogador
+          if (achouGolDoTime) {
+            nGolsTodasPartidas++;
+            adicionaGolDasPartidas(gol.partida_id,idJogador)
           }
-        })
-        
-        return {total:nGolsTodasPartidas,partidasDoTime} ;
-        
-      }
+        }
+      })
+      
+
+      return { total: nGolsTodasPartidas, partidasDoTime };
+
+    }
     },
     getTotalGolsJogador(state) {
       return function GolsByJogador(jogador) {
@@ -98,7 +118,7 @@ const store = createStore({
         return timeEncontrado || { nome: '404' }
       }
     },
-     
+
   },
 
   mutations: { // altera o state
