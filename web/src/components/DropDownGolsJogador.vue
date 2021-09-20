@@ -4,12 +4,15 @@
     <CampoDropDown v-model="idTimeSelect" :itens="timesPossiveis" />
     
     <CampoDropDown v-model="idJogadorSelect" :itens="jogadoresNesseTime" />
-    <button class="btn btn-success" v-on:click="bolaNaRede">Gol</button>
+    <div v-if="carregando" class="spinner-border text-info" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    <button v-else class="btn btn-success" v-on:click="bolaNaRede">Gol</button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import CampoDropDown from "./CampoDropDown.vue";
 export default {
   components: { CampoDropDown },
@@ -28,6 +31,7 @@ export default {
   },
   computed: {    
     ...mapGetters(["getJogadoresNoTime"]), 
+    ...mapState(['carregando']),
     timeSelecionado() {
       let timeEncontrado = this.timesDaPartida ?
       this.timesDaPartida.filter(timsP=>

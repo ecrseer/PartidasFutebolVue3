@@ -9,7 +9,7 @@
     class="flex-sm-fill text-sm-center nav-link active"
     aria-current="times"
     to="/times/criar"
-    >Criar Time/ Jogadores</router-link > 
+    >Criar Times</router-link > 
     <router-link
     class="flex-sm-fill text-sm-center nav-link active"
     aria-current="partidas"
