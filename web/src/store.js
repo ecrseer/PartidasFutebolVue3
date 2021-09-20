@@ -30,9 +30,17 @@ const store = createStore({
         ) {
           return false;
         }
-
+        
         let jogadoresNoTime = []
-        jogadoresNoTime = state.jogadores.filter(jogador => jogador.time_id === time.id)
+        for (const jogadorId of time.jogadores) {
+        
+          let jogadorEncontrado = state.jogadores
+          .filter(jogadr=>jogadr.id===jogadorId)[0]
+        
+          if(jogadorEncontrado){
+            jogadoresNoTime.push(jogadorEncontrado)
+          }
+        }
 
         return jogadoresNoTime
 
@@ -119,10 +127,7 @@ const store = createStore({
     },
     getPartidaAtual(state){
       return state.partidaAtual
-    },
-    getPartidaById(state){
-
-    }
+    }, 
 
   },
 
@@ -234,11 +239,13 @@ const store = createStore({
     async criarGol({ commit,state,dispatch }, {jogador_id,partida}) {
       commit('carregando')
       console.log('criando gol')
+
       let partidaAtualOuNova = state.partidaAtual || 
        await dispatch('criarPartida',partida)
                
       jogador_id = Number(jogador_id)
-      let gol = {partida_id:partidaAtualOuNova.id,
+      let gol = {
+        partida_id:partidaAtualOuNova.id || state.partidaAtual.id,
         jogador_id}
       let respostaGol = await  axios.post(baseUrlApi.gols, { ...gol } )
       

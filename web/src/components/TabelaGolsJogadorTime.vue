@@ -44,12 +44,12 @@ export default {
     };
   },
   computed: {
-      ...mapGetters(['getGolsTime','getEntePorId','partidaAtual']),
+      ...mapGetters(['getGolsTime','getEntePorId','getPartidaAtual']),
       gJogadorPorId(){
         return idJogador => this.getEntePorId("jogadores",idJogador)
       },
       IdPartidaAtual(){
-        return this.partidaAtual ? this.partidaAtual.id : 1000
+        return this.getPartidaAtual ? this.getPartidaAtual.id : false
       },
       NomeDoJogador(){
         return function(jogadr){
@@ -58,12 +58,13 @@ export default {
         }
       },
       jogadoresDessaPartida() {
-        if(!this.lista[0] ) return [];
+        if(!this.lista[0] || !this.IdPartidaAtual ) return [];
 
         let partidaAtual = this.getGolsTime(this.lista[0])
           .partidasDoTime[this.IdPartidaAtual]
           
       if(partidaAtual && partidaAtual.jogadores){
+        
           return partidaAtual.jogadores
       }
       return [];

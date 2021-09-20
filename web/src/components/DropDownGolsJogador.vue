@@ -46,7 +46,8 @@ export default {
       return this.timesDaPartida;
     },
     jogadoresNesseTime() {
-      return this.getJogadoresNoTime(this.timeSelecionado || {});
+       
+      return this.getJogadoresNoTime(this.timeSelecionado || false);
     },
   },
   methods: {

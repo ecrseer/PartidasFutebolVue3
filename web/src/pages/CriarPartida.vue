@@ -24,7 +24,7 @@
 import { mapGetters, mapState } from "vuex";
 import CampoDropDown from "../components/CampoDropDown.vue";
 import DropDownGolsJogador from "../components/DropDownGolsJogador.vue";
-import DropDownTimesPartida from "../components/DropDownTimesPartida.vue";
+
 import Formulario from "../components/Formulario.vue";
 import ListaCards from "../components/ListaCards.vue";
 import TabelaGenerica from "../components/TabelaGenerica.vue";
@@ -36,8 +36,7 @@ export default {
     Formulario,
     TabelaGenerica,
     ListaCards,
-    DropDownGolsJogador,
-    DropDownTimesPartida,
+    DropDownGolsJogador, 
     TabelaGolsJogadorTime,
     CampoDropDown,
   },
