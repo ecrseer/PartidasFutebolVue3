@@ -46,8 +46,7 @@ const store = createStore({
     },
     getGolsTime(state) {
 
-    return function GolsByTime(time,
-      jogadoresRequisitados = time.jogadores) 
+    return function GolsByTime(time, jogadoresRequisitados  ) 
       {
       let partidasDoTime = {}
 
@@ -65,7 +64,9 @@ const store = createStore({
             .jogadores[idJogador]
           if (PrimeiraVezQueJogadorEhCadastrado) {
             let estruturaPartidaDoJogador = {              
-              gols: 0
+              gols: 0,
+              nomeTime:time.nome,
+              idJogador
             }
             partidasDoTime[golPartida_id].jogadores[idJogador] =
               estruturaPartidaDoJogador
@@ -81,6 +82,7 @@ const store = createStore({
         }
 
       let nGolsTodasPartidas = 0;
+      jogadoresRequisitados = jogadoresRequisitados || time.jogadores
       if (!jogadoresRequisitados) return {}
 
       jogadoresRequisitados.forEach((idJogador) => {

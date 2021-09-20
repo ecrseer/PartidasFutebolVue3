@@ -5,29 +5,27 @@
       <thead>
         <tr>
           <!-- <th v-for="(atributo, key) in lista[0]" v-bind:key="key">
-          <span v-if="CampoDeveAparecer(atributo,key)">{{ key }}</span>
+          <span >{{ key }}</span>
         </th>
         <th >
           qtd. gols
         </th> -->
-          <th>ttt {{jogadoresDessaPartida}}</th>
+          <!-- <th>ttt {{jogadoresDessaPartida}}</th> -->
         </tr>
       </thead>
       <tbody id="test_tabela" class="table-dark">
-        <!-- <tr v-for="item in lista" v-bind:key="item" 
+        <tr v-for="item in jogadoresDessaPartida" v-bind:key="item" 
       v-bind:class="item===entidadeSelecionada?'table-primary':''">
         <td v-for="(atributo, key) in item" v-bind:key="key"
         >
-          <span v-if="CampoDeveAparecer(atributo,key)">{{atributo}}</span>
+          <span >{{atributo}} - {{key}}</span>
         </td>
         <td >
-          {{golsTime(item).total}}
-        </td>
           
-        <td>
-          <button class="colorido" @click="editar(item)">editar</button>
+          
         </td>
-      </tr> -->
+           
+      </tr>
       </tbody>
     </table>
   </div>
@@ -47,13 +45,19 @@ export default {
   computed: {
       ...mapGetters(['getGolsTime','getEntePorId']),
       jogadoresDessaPartida() {
-      if(this.lista[0]){
-          return this.getGolsTime(this.lista[0])
-          .partidasDoTime[this.IdPartidaAtual].jogadores
+        if(!this.lista[0] ) return [];
+
+        let partidaAtual = this.getGolsTime(this.lista[0])
+          .partidasDoTime[this.IdPartidaAtual]
+          
+      if(partidaAtual && partidaAtual.jogadores){
+          return partidaAtual.jogadores
       }
-      else return 0;
+      else return [];
     },
-    
+    listaJogadorGolTime(){
+      this.jogadoresDessaPartida
+    }
 
   },
   methods: {
