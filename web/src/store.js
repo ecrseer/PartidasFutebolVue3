@@ -15,7 +15,7 @@ const store = createStore({
   getters: { // equivalente ao computed de um componente
     getEntePorId(state) {
       return function (entenome, idEnte) {
-
+        if(!idEnte) return false
         let enteFiltrado = state[entenome].filter(
           (ente) => `${ente.id}` === `${idEnte}`)[0];
 
@@ -27,7 +27,7 @@ const store = createStore({
         if (!time || !time.jogadores ||
           time.jogadores.length <= 0
         ) {
-          return [];
+          return false;
         }
 
         let jogadoresNoTime = []

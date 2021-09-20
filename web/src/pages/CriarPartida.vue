@@ -46,19 +46,17 @@ export default {
     ...mapGetters([
       "getEntePorId",
       "getJogadoresNoTime",
-      "getTotalGolsJogador",
-      "getTimesDisponiveisExcluindoSelecao",
+      "getTotalGolsJogador", 
       "getTodosTimes",
     ]),
 
     timesSelecionadosPartida() {
       let parTimes = [];
-      let time = this.getEntePorId("times", 1);
+      let time = this.getEntePorId("times", this.idTimeA);
       if (time) {
         parTimes.push(time);
       }
-
-      time = this.getEntePorId("times", 2);
+      time = this.getEntePorId("times", this.idTimeB);
       if (time) {
         parTimes.push(time);
       }
