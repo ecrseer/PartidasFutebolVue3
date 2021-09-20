@@ -65,11 +65,7 @@ export default {
       
       return !Array.isArray(atributo) && key.indexOf('id')===-1
     } 
-  },
-  unmounted() {
-    /* gambiarra */
-    //this.$bus.emit("editarTime", this.entidadeSelecionada);
-  },
+  } 
 };
 </script>
 <style scoped>
