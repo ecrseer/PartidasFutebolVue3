@@ -10,23 +10,21 @@
         </tr>
       </thead>
       <tbody id="test_tabela" class="table-dark">
-        <tr v-for="item in jogadoresDessaPartida" v-bind:key="item" 
-      v-bind:class="item===entidadeSelecionada?'table-primary':''">
-        <td>
-          {{
-            NomeDoJogador(
-            gJogadorPorId(item.idJogador)
-          )
-          }}
-        </td>
-        <td >          
-          {{item.nomeTime}}
-        </td>
-        <td>
-          {{item.gols}}
-        </td>
-           
-      </tr>
+        <tr
+          v-for="item in jogadoresDessaPartida"
+          v-bind:key="item"
+          v-bind:class="item === entidadeSelecionada ? 'table-primary' : ''"
+        >
+          <td>
+            {{ NomeDoJogador(gJogadorPorId(item.idJogador)) }}
+          </td>
+          <td>
+            {{ item.nomeTime }}
+          </td>
+          <td>
+            {{ item.gols }}
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -36,43 +34,61 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "TabelaGolsJogadorTime",
-  props: ["lista",  "golsTime"],
+  props: ["lista", "golsTime"],
   data: () => {
     return {
-      entidadeSelecionada: { },
-      
+      entidadeSelecionada: {},
     };
   },
   computed: {
-      ...mapGetters(['getGolsTime','getEntePorId','getPartidaAtual']),
-      gJogadorPorId(){
-        return idJogador => this.getEntePorId("jogadores",idJogador)
-      },
-      IdPartidaAtual(){
-        return this.getPartidaAtual ? this.getPartidaAtual.id : false
-      },
-      NomeDoJogador(){
-        return function(jogadr){
-          if(!jogadr||!jogadr.nome) return ''
-          return jogadr.nome
-        }
-      },
-      jogadoresDessaPartida() {
-        if(!this.lista[0] || !this.IdPartidaAtual ) return [];
+    ...mapGetters(["getGolsTime", "getEntePorId", "getPartidaAtual"]),
+    gJogadorPorId() {
+      return (idJogador) => this.getEntePorId("jogadores", idJogador);
+    },
+    IdPartidaAtual() {
+      return this.getPartidaAtual ? this.getPartidaAtual.id : false;
+    },
+    NomeDoJogador() {
+      return function (jogadr) {
+        if (!jogadr || !jogadr.nome) return "";
+        return jogadr.nome;
+      };
+    },
+    jogadoresDessaPartida() {
+      if (!this.IdPartidaAtual) return [];
 
-        let partidaAtual = this.getGolsTime(this.lista[0])
-          .partidasDoTime[this.IdPartidaAtual]
-          
-      if(partidaAtual && partidaAtual.jogadores){
+      let GolsEJogadoresTimeCasa, GolsEJogadoresTimeVisitante;
+
+      let TodosJogadoresEGolsPartidaAtual = {}
+      if (this.lista[0]) {
+        GolsEJogadoresTimeCasa = this.getGolsTime(this.lista[0])
+        .partidasDoTime[this.IdPartidaAtual];
+
+        if(GolsEJogadoresTimeCasa){
+          TodosJogadoresEGolsPartidaAtual = {...TodosJogadoresEGolsPartidaAtual,
+          ...GolsEJogadoresTimeCasa.jogadores}
+        }
+      }
+      if (this.lista[1]) {
+        GolsEJogadoresTimeVisitante = this.getGolsTime(this.lista[1])
+          .partidasDoTime[this.IdPartidaAtual];
+
+          if(GolsEJogadoresTimeVisitante){
+          TodosJogadoresEGolsPartidaAtual = {...TodosJogadoresEGolsPartidaAtual,
+          ...GolsEJogadoresTimeVisitante.jogadores}
+        }
+      }
+      
+
+      if (Object.keys(TodosJogadoresEGolsPartidaAtual).length > 0) {
         
-          return partidaAtual.jogadores
+        return TodosJogadoresEGolsPartidaAtual;
       }
       return [];
     },
-    listaJogadorGolTime(){
-      this.jogadoresDessaPartida
-    }
-
-  },  
+    listaJogadorGolTime() {
+      this.jogadoresDessaPartida;
+    },
+  },
 };
 </script> 
