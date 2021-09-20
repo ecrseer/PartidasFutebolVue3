@@ -2,8 +2,8 @@
   <div class="d-flex flex-row justify-content-around">
     <div class="row">
       <main>
-        <CampoDropDown v-model="idTimeA" :itens="timesDisponiveisAgora" />
-        <CampoDropDown v-model="idTimeB" :itens="timesDisponiveisAgora" />
+        <CampoDropDown :nome="'timeA'" v-model="idTimeA" :itens="timesDisponiveisAgora" />
+        <CampoDropDown :nome="'timeB'" v-model="idTimeB" :itens="timesDisponiveisAgora" />
       </main>
       <TabelaGolsJogadorTime :lista="timesSelecionadosPartida" />
       <!-- <DropDownTimesPartida :timeA="idTimeA" :timeB="idTimeB"  :timesDaPartida="{}"/> -->
@@ -68,11 +68,15 @@ export default {
       let arrDeveFiltrar = [];
       if (this.idTimeA) arrDeveFiltrar.push(this.idTimeA);
       if (this.idTimeB) arrDeveFiltrar.push(this.idTimeB);
-
-      if (arrDeveFiltrar.length >= 1) {        
-        return this.getTimesDisponiveisExcluindoSelecao(arrDeveFiltrar);
-      }
-      return this.getTodosTimes;
+       let disponiveis= this.getTodosTimes
+        for (const timeId of arrDeveFiltrar) {
+            disponiveis = disponiveis.filter(tme=>`${tme.id}`!==`${timeId}`)
+            console.log(disponiveis)
+            console.log(this.getTodosTimes)
+        }
+         return disponiveis
+        
+       
     },
   },
 

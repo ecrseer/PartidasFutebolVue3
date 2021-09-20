@@ -39,19 +39,7 @@ const store = createStore({
     },
     getTodosTimes(state){
       return state.times
-    },
-    getTimesDisponiveisExcluindoSelecao(state, getters) {
-      return function filtrarBySelecao(arrSelecao){
-        let disponiveis= state.times
-        for (const timeId of arrSelecao) {
-            disponiveis = disponiveis.filter(tme=>`${tme.id}`!==`${timeId}`)
-            console.log(disponiveis)
-            console.log(state.times)
-        }
-        if(disponiveis) return disponiveis
-        return []
-      }
-    },
+    }, 
     getGolsTime(state) {
 
     return function GolsByTime(time, jogadoresRequisitados  ) 
