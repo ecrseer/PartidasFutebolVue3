@@ -13,7 +13,7 @@
           :itens="timesDisponiveisAgora"
         />
       </main>
-      <TabelaGolsJogadorTime :lista="timesSelecionadosPartida" />
+      <TabelaGolsJogadorTime :lista="timesSelecionadosPartida" :partidaAtual="partidaAtual"/>
       <!-- <DropDownTimesPartida :timeA="idTimeA" :timeB="idTimeB"  :timesDaPartida="{}"/> -->
       <DropDownGolsJogador :timesDaPartida="timesSelecionadosPartida" />
     </div>
@@ -90,7 +90,7 @@ export default {
         time_casa: this.idTimeA,
         time_visitante: this.idTimeB,
       };
-      console.log('jjj'+jogador_id)
+      console.log(`partida eh ${partida}`)
       this.$store.dispatch("criarGol", { jogador_id, partida });
     });
   },

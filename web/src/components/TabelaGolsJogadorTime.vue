@@ -44,12 +44,12 @@ export default {
     };
   },
   computed: {
-      ...mapGetters(['getGolsTime','getEntePorId']),
+      ...mapGetters(['getGolsTime','getEntePorId','partidaAtual']),
       gJogadorPorId(){
         return idJogador => this.getEntePorId("jogadores",idJogador)
       },
       IdPartidaAtual(){
-        return 1000
+        return this.partidaAtual ? this.partidaAtual.id : 1000
       },
       NomeDoJogador(){
         return function(jogadr){

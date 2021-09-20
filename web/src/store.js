@@ -10,7 +10,7 @@ const store = createStore({
       jogadores: [],
       partidas: [],
       gols: [],
-      partidaAtual:{}
+      partidaAtual:false
     }
   },
   getters: { // equivalente ao computed de um componente
@@ -222,17 +222,27 @@ const store = createStore({
       commit('time_criar', time)
 
     },
-    async criarGol({ commit }, {jogador_id,partida}) {
-      commit('carregando')
+    async criarPartida({commit},partida){
       let respostaPartida = await axios.post(baseUrlApi.partidas, { ...partida } )
       
-      let partida_id = respostaPartida.data.id
+      let partidaComId = respostaPartida.data
+      console.log('criei partida')
+      commit('partida_criar',partidaComId)
+      return partida;
+      
+    },
+    async criarGol({ commit,state,dispatch }, {jogador_id,partida}) {
+      commit('carregando')
+      console.log('criando gol')
+      let partidaAtualOuNova = state.partidaAtual || 
+       await dispatch('criarPartida',partida)
+               
       jogador_id = Number(jogador_id)
-      let gol = {partida_id,jogador_id}
+      let gol = {partida_id:partidaAtualOuNova.id,
+        jogador_id}
       let respostaGol = await  axios.post(baseUrlApi.gols, { ...gol } )
       
       commit('gol_criar', respostaGol.data)
-      commit('partida_criar',respostaPartida.data)
 
     },
     async criarJogador({ commit, dispatch }, { time, jogador }) {
