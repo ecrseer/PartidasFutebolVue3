@@ -1,7 +1,7 @@
 <template>
  <div class="d-flex flex-column">
 
-  <TabelaPartidas  :lista="partidas"  :gGolsTime="getGolsTime"/> 
+  <TabelaPartidas  :lista="partidas"  :gGolsTime="getJogadoresGolsByTime"/> 
   <router-link class="btn btn-primary"
   to="/partidas/criar">Cadastrar partida</router-link>
  </div>
@@ -17,7 +17,7 @@ export default {
   components: { TabelaPartidas },
   computed:{
     ...mapState(['partidas']),
-    ...mapGetters(['getGolsTime']),    
+    ...mapGetters(['getJogadoresGolsByTime']),    
     
   },
   mounted() {

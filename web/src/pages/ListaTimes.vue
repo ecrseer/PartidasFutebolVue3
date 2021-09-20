@@ -1,6 +1,6 @@
 <template>
   <TabelaGenerica :entidadenome="'Times'" :lista="times" 
-  :golsTime="getGolsTime"
+  :golsTime="getJogadoresGolsByTime"
   /> 
 </template>
 
@@ -13,7 +13,7 @@ export default {
   components: {TabelaGenerica },
   computed:{
     ...mapState(['times']),
-    ...mapGetters(['getGolsTime']),    
+    ...mapGetters(['getJogadoresGolsByTime']),    
     
   },
   mounted() {

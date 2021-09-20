@@ -7,6 +7,7 @@
           v-model="idTimeA"
           :itens="timesDisponiveisAgora"
         />
+        <div>Placar {{fdf}}</div>
         <CampoDropDown
           :nome="'timeB'"
           v-model="idTimeB"
@@ -51,10 +52,11 @@ export default {
   computed: {
     ...mapGetters([
       "getEntePorId",
-      "getJogadoresNoTime",
-      "getTotalGolsJogador",
+      "getJogadoresNoTime", 
       "getTodosTimes",
-      "getPartidaAtual"
+      "getPartidaAtual",
+      "getJogadoresGolsByTime"
+
     ]),
     partidaAtual(){
       return this.getPartidaAtual
@@ -82,6 +84,16 @@ export default {
       }
       return disponiveis;
     },
+    fdf(){
+
+      let data;
+      for (const time of this.timesSelecionadosPartida) {
+        data = this.getJogadoresGolsByTime(time).partidasDoTime[1000]
+        let anew = data;
+        debugger
+      }
+      return data;
+    }
   },
   created() {
     this.$bus.on("marcarGol", (jogador_id) => {

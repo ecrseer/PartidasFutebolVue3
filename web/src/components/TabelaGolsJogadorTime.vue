@@ -41,7 +41,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getGolsTime", "getEntePorId", "getPartidaAtual"]),
+    ...mapGetters(["getJogadoresGolsByTime", "getEntePorId", "getPartidaAtual"]),
     gJogadorPorId() {
       return (idJogador) => this.getEntePorId("jogadores", idJogador);
     },
@@ -61,7 +61,7 @@ export default {
 
       let TodosJogadoresEGolsPartidaAtual = {}
       if (this.lista[0]) {
-        GolsEJogadoresTimeCasa = this.getGolsTime(this.lista[0])
+        GolsEJogadoresTimeCasa = this.getJogadoresGolsByTime(this.lista[0])
         .partidasDoTime[this.IdPartidaAtual];
 
         if(GolsEJogadoresTimeCasa){
@@ -70,7 +70,7 @@ export default {
         }
       }
       if (this.lista[1]) {
-        GolsEJogadoresTimeVisitante = this.getGolsTime(this.lista[1])
+        GolsEJogadoresTimeVisitante = this.getJogadoresGolsByTime(this.lista[1])
           .partidasDoTime[this.IdPartidaAtual];
 
           if(GolsEJogadoresTimeVisitante){
@@ -81,7 +81,7 @@ export default {
       
 
       if (Object.keys(TodosJogadoresEGolsPartidaAtual).length > 0) {
-        
+
         return TodosJogadoresEGolsPartidaAtual;
       }
       return [];

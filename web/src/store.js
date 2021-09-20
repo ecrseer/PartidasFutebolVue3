@@ -49,9 +49,8 @@ const store = createStore({
     getTodosTimes(state){
       return state.times
     }, 
-    getGolsTime(state) {
-
-    return function GolsByTime(time, jogadoresRequisitados  ) 
+    getJogadoresGolsByTime(state){
+      return function IteraJogadoresByTime(time, jogadoresRequisitados  ) 
       {
       let partidasDoTime = {}
 
@@ -86,10 +85,10 @@ const store = createStore({
 
         }
 
+        jogadoresRequisitados = jogadoresRequisitados || time.jogadores
+        if (!jogadoresRequisitados) return {}
+        
       let nGolsTodasPartidas = 0;
-      jogadoresRequisitados = jogadoresRequisitados || time.jogadores
-      if (!jogadoresRequisitados) return {}
-
       jogadoresRequisitados.forEach((idJogador) => {
         for (const gol of state.gols) {
 
@@ -102,9 +101,15 @@ const store = createStore({
       })
       
 
-      return { total: nGolsTodasPartidas, partidasDoTime };
+      return { total: nGolsTodasPartidas, partidasDoTime };  
+      }
 
-    }
+   },
+    getGolsByTime(state,getter) {
+      return function golsByTimeNaPartida(){
+
+      }
+ 
     },
     getTotalGolsJogador(state) {
       return function GolsByJogador(jogador) {

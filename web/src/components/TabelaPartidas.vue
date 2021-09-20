@@ -56,16 +56,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getTimeById", "getGolsTime"]),
+    ...mapGetters(["getTimeById", "getJogadoresGolsByTime"]),
     timeById() {
       return (idTime) => this.getTimeById(idTime);
     },
     golsTime() {
-      return (time) => this.getGolsTime(time);
+      return (time) => this.getJogadoresGolsByTime(time);
     },
     golsDaPartidaTime() {
       return (idTimeNaPartida, idPartida) => {
-        let golsDesseTimeComPartidas = this.getGolsTime(
+        let golsDesseTimeComPartidas = this.getJogadoresGolsByTime(
           this.timeById(idTimeNaPartida)
         );
 
