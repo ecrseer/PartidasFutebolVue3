@@ -36,17 +36,20 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "TabelaGolsJogadorTime",
-  props: ["lista", "entidadenome", "golsTime"],
+  props: ["lista",  "golsTime"],
   data: () => {
     return {
       entidadeSelecionada: { },
-      IdPartidaAtual:1000
+      
     };
   },
   computed: {
       ...mapGetters(['getGolsTime','getEntePorId']),
       gJogadorPorId(){
         return idJogador => this.getEntePorId("jogadores",idJogador)
+      },
+      IdPartidaAtual(){
+        return 1000
       },
       NomeDoJogador(){
         return function(jogadr){

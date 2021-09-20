@@ -4,7 +4,7 @@
     <CampoDropDown v-model="idTimeSelect" :itens="timesPossiveis" />
     
     <CampoDropDown v-model="idJogadorSelect" :itens="jogadoresNesseTime" />
-    <button class="btn btn-success">Gol</button>
+    <button class="btn btn-success" v-on:click="bolaNaRede">Gol</button>
   </div>
 </template>
 
@@ -50,8 +50,8 @@ export default {
     },
   },
   methods: {
-    atualizar() {
-      this.$emit("marcarGol",this.idJogadorSelect);
+    bolaNaRede() { 
+      this.$bus.emit("marcarGol",this.idJogadorSelect);
     },
   },
 };

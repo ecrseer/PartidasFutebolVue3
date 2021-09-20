@@ -2,8 +2,16 @@
   <div class="d-flex flex-row justify-content-around">
     <div class="row">
       <main>
-        <CampoDropDown :nome="'timeA'" v-model="idTimeA" :itens="timesDisponiveisAgora" />
-        <CampoDropDown :nome="'timeB'" v-model="idTimeB" :itens="timesDisponiveisAgora" />
+        <CampoDropDown
+          :nome="'timeA'"
+          v-model="idTimeA"
+          :itens="timesDisponiveisAgora"
+        />
+        <CampoDropDown
+          :nome="'timeB'"
+          v-model="idTimeB"
+          :itens="timesDisponiveisAgora"
+        />
       </main>
       <TabelaGolsJogadorTime :lista="timesSelecionadosPartida" />
       <!-- <DropDownTimesPartida :timeA="idTimeA" :timeB="idTimeB"  :timesDaPartida="{}"/> -->
@@ -14,7 +22,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import CampoDropDown from '../components/CampoDropDown.vue';
+import CampoDropDown from "../components/CampoDropDown.vue";
 import DropDownGolsJogador from "../components/DropDownGolsJogador.vue";
 import DropDownTimesPartida from "../components/DropDownTimesPartida.vue";
 import Formulario from "../components/Formulario.vue";
@@ -27,7 +35,7 @@ export default {
   components: {
     Formulario,
     TabelaGenerica,
-    ListaCards,    
+    ListaCards,
     DropDownGolsJogador,
     DropDownTimesPartida,
     TabelaGolsJogadorTime,
@@ -45,10 +53,13 @@ export default {
     ...mapGetters([
       "getEntePorId",
       "getJogadoresNoTime",
-      "getTotalGolsJogador", 
+      "getTotalGolsJogador",
       "getTodosTimes",
+      "getPartidaAtual"
     ]),
-
+    partidaAtual(){
+      return this.getPartidaAtual
+    },
     timesSelecionadosPartida() {
       let parTimes = [];
       let time = this.getEntePorId("times", this.idTimeA);
@@ -65,20 +76,29 @@ export default {
       let arrDeveFiltrar = [];
       if (this.idTimeA) arrDeveFiltrar.push(this.idTimeA);
       if (this.idTimeB) arrDeveFiltrar.push(this.idTimeB);
-       let disponiveis= this.getTodosTimes
-        for (const timeId of arrDeveFiltrar) {
-            disponiveis = disponiveis.filter(tme=>`${tme.id}`!==`${timeId}`)
-            console.log(disponiveis)
-            console.log(this.getTodosTimes)
-        }
-         return disponiveis
-        
-       
+      let disponiveis = this.getTodosTimes;
+      for (const timeId of arrDeveFiltrar) {
+        disponiveis = disponiveis.filter((tme) => `${tme.id}` !== `${timeId}`);
+         
+      }
+      return disponiveis;
     },
   },
-
+  created() {
+    this.$bus.on("marcarGol", (jogador_id) => {
+      let partida = this.partidaAtual || {
+        time_casa: this.idTimeA,
+        time_visitante: this.idTimeB,
+      };
+      console.log('jjj'+jogador_id)
+      this.$store.dispatch("criarGol", { jogador_id, partida });
+    });
+  },
   mounted() {
     this.$store.dispatch("carregar");
+  },
+  unmounted() {
+    this.$bus.off("marcarGol");
   },
 };
 </script>
