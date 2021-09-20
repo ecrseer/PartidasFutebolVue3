@@ -1,6 +1,6 @@
 <template>
   <TabelaGenerica :entidadenome="'Times'" :lista="times" 
-  :golsTime="getJogadoresGolsByTime"
+   :golsEntidade="getJogadoresGolsByTime"
   /> 
 </template>
 

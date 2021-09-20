@@ -109,7 +109,7 @@ const store = createStore({
       return function golsByTimeNaPartida(IdPartidaRequisitada,time){
          function somaGolsDosJogadoresDoTime(partidaRequisitada){
           for (const idJogador of time.jogadores) {
-            debugger
+            
             let jogadorEncontrado = partidaRequisitada.jogadores[idJogador]
             if(jogadorEncontrado){
               golsDesseTime+= partidaRequisitada.jogadores[idJogador].gols          
@@ -136,7 +136,7 @@ const store = createStore({
           }
         }
 
-        return nGols;
+        return {total:nGols};
       }
     },
     getTimeById(state) {
@@ -214,7 +214,7 @@ const store = createStore({
       state.carregando = false
     },
     partida_criar(state,partida){
-      debugger
+      
       
       state.partidas.push(partida)
       state.partidaAtual = partida
@@ -250,7 +250,7 @@ const store = createStore({
     },
     async criarPartida({commit},partida){
       let respostaPartida = await axios.post(baseUrlApi.partidas, { ...partida } )
-      debugger
+      
       let partidaComId = respostaPartida.data
       console.log('criei partida')
       commit('partida_criar',partidaComId)

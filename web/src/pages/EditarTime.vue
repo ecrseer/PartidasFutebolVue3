@@ -14,6 +14,7 @@
           v-bind:lista="jogadoresNesseTime"
           :entidadenome="'Jogador'"
           :golsTime="getTotalGolsJogador"
+          :golsEntidade="getTotalGolsJogador"
         />
       </div>
       <div class="col">
@@ -48,7 +49,7 @@ export default {
     },
     jogadoresNesseTime() {
       return this.getJogadoresNoTime(this.timeSelecionado);
-    },
+    }
   },
   created() {
     this.$bus.on("FormAddJogador", (jogadr) => {
@@ -68,15 +69,7 @@ export default {
         time: this.timeSelecionado,
         jogador: this.jogadorSelecionado,
       });
-    });
-    /* 
-    this.$bus.on("FormAddTime", (jogadr) => {
-       
-      this.$store.dispatch("criarTime", [this.timeSelecionado, jogadr]);
-    });
-    this.$bus.on("FormEditTime", (antigoEnovo) => {
-      this.$store.dispatch("editarTime", antigoEnovo);
-    }); */
+    }); 
 
     this.$bus.on("TabelaSelectJogador", (jogadr) => {
       this.jogadorSelecionado = jogadr;
