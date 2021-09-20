@@ -13,7 +13,11 @@
         <tr v-for="item in jogadoresDessaPartida" v-bind:key="item" 
       v-bind:class="item===entidadeSelecionada?'table-primary':''">
         <td>
-          {{getJogadorPorId(item.idJogador).nome}}
+          {{
+            NomeDoJogador(
+            gJogadorPorId(item.idJogador)
+          )
+          }}
         </td>
         <td >          
           {{item.nomeTime}}
@@ -41,8 +45,14 @@ export default {
   },
   computed: {
       ...mapGetters(['getGolsTime','getEntePorId']),
-      getJogadorPorId(){
+      gJogadorPorId(){
         return idJogador => this.getEntePorId("jogadores",idJogador)
+      },
+      NomeDoJogador(){
+        return function(jogadr){
+          if(!jogadr||!jogadr.nome) return ''
+          return jogadr.nome
+        }
       },
       jogadoresDessaPartida() {
         if(!this.lista[0] ) return [];
@@ -59,40 +69,6 @@ export default {
       this.jogadoresDessaPartida
     }
 
-  },
-  methods: {
-    
-    editar(item) {
-      if (this.entidadenome === "Jogador") {
-        if (this.entidadeSelecionada === item) {
-          this.$bus.emit("FormUnselectJogador");
-          this.entidadeSelecionada = {};
-        } else {
-          this.$bus.emit("TabelaSelectJogador", item);
-          this.entidadeSelecionada = item;
-        }
-
-        return;
-      }
-
-      let rota_ente = this.entidadenome.toLowerCase();
-
-      this.$router.push({
-        path: `/${rota_ente}/editar/${item.id}`,
-      });
-    },
-    CampoDeveAparecer(atributo, key) {
-      return !Array.isArray(atributo) && key.indexOf("id") === -1;
-    },
-  },
-  unmounted() {
-    /* gambiarra */
-    //this.$bus.emit("editarTime", this.entidadeSelecionada);
-  },
+  },  
 };
-</script>
-<style scoped>
-.colorido {
-  background-color: #b6e7ae;
-}
-</style>
+</script> 
