@@ -107,12 +107,20 @@ const store = createStore({
    },
     getGolsByPartida(state,getters) {
       return function golsByTimeNaPartida(IdPartidaRequisitada,time){
-         
+         function somaGolsDosJogadoresDoTime(partidaRequisitada){
+          for (const idJogador of time.jogadores) {
+            debugger
+            let jogadorEncontrado = partidaRequisitada.jogadores[idJogador]
+            if(jogadorEncontrado){
+              golsDesseTime+= partidaRequisitada.jogadores[idJogador].gols          
+            }
+          }
+         }
         let partidaRequisitada = getters.getJogadoresGolsByTime(time)
         .partidasDoTime[IdPartidaRequisitada]
         let golsDesseTime=0;
-        for (const idJogador of time.jogadores) {
-          golsDesseTime+= partidaRequisitada.jogadores[idJogador].gols          
+        if(partidaRequisitada){
+          somaGolsDosJogadoresDoTime(partidaRequisitada)
         }
         return golsDesseTime
         

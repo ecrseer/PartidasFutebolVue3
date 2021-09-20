@@ -7,7 +7,7 @@
           v-model="idTimeA"
           :itens="timesDisponiveisAgora"
         />
-        <div>Placar {{fdf}}</div>
+        <div>Placar {{geraPlacar}}</div>
         <CampoDropDown
           :nome="'timeB'"
           v-model="idTimeB"
@@ -84,9 +84,15 @@ export default {
       }
       return disponiveis;
     },
-    fdf(){
+    geraPlacar(){
+
+      if(Object.keys(this.partidaAtual).length===0) return '0 x 0'
+
       let time = this.timesSelecionadosPartida[0]
-      let g = this.getGolsByPartida(1000,time)  
+      let golsTimeCasa = this.getGolsByPartida(this.partidaAtual.id,time)  
+      time = this.timesSelecionadosPartida[1]
+      let golsTimeVisitante = this.getGolsByPartida(this.partidaAtual.id,time)  
+      return `${golsTimeCasa} x ${golsTimeVisitante}`
 
       
     }
