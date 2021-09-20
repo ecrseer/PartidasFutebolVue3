@@ -55,7 +55,7 @@ export default {
       "getJogadoresNoTime", 
       "getTodosTimes",
       "getPartidaAtual",
-      "getJogadoresGolsByTime"
+      "getGolsByPartida"
 
     ]),
     partidaAtual(){
@@ -85,14 +85,10 @@ export default {
       return disponiveis;
     },
     fdf(){
+      let time = this.timesSelecionadosPartida[0]
+      let g = this.getGolsByPartida(1000,time)  
 
-      let data;
-      for (const time of this.timesSelecionadosPartida) {
-        data = this.getJogadoresGolsByTime(time).partidasDoTime[1000]
-        let anew = data;
-        debugger
-      }
-      return data;
+      
     }
   },
   created() {

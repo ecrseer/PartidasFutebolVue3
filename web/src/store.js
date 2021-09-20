@@ -105,9 +105,17 @@ const store = createStore({
       }
 
    },
-    getGolsByTime(state,getter) {
-      return function golsByTimeNaPartida(){
-
+    getGolsByPartida(state,getters) {
+      return function golsByTimeNaPartida(IdPartidaRequisitada,time){
+         
+        let partidaRequisitada = getters.getJogadoresGolsByTime(time)
+        .partidasDoTime[IdPartidaRequisitada]
+        let golsDesseTime=0;
+        for (const idJogador of time.jogadores) {
+          golsDesseTime+= partidaRequisitada.jogadores[idJogador].gols          
+        }
+        return golsDesseTime
+        
       }
  
     },
