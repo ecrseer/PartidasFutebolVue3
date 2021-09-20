@@ -22,7 +22,7 @@
         <td>{{golsEntidade(entidade).total}}</td>
           
         <td>
-          <button class="colorido" @click="editar(entidade)">editar</button>
+          <button class="btn btn-primary" @click="editar(entidade)">{{textoBotao}}</button>
         </td>
       </tr>
     </tbody>
@@ -41,6 +41,14 @@ export default {
       entidadeSelecionada: {},
     };
   }, 
+  computed:{
+    textoBotao(){      
+      if(this.entidadenome==='Jogador'){
+        return 'Editar'
+      }
+      return 'Cadastrar jogadores'
+    }
+  },
   methods: {
     editar(entidade) {
       if(this.entidadenome==="Jogador"){
