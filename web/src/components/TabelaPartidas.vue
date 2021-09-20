@@ -36,7 +36,7 @@
           </td>
           <td>
             <button class="colorido" @click="editar(partida)">
-              to do(editar)
+              🚧editar
             </button>
           </td>
         </tr>

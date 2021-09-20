@@ -100,8 +100,8 @@ export default {
   created() {
     this.$bus.on("marcarGol", (jogador_id) => {
       let partida = this.partidaAtual || {
-        time_casa: this.idTimeA,
-        time_visitante: this.idTimeB,
+        time_casa: Number(this.idTimeA),
+        time_visitante: Number(this.idTimeB),
       };
       console.log(`partida eh ${partida}`)
       this.$store.dispatch("criarGol", { jogador_id, partida });
