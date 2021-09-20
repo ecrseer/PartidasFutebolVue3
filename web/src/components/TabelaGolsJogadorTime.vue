@@ -4,25 +4,22 @@
     <table class="table">
       <thead>
         <tr>
-          <!-- <th v-for="(atributo, key) in lista[0]" v-bind:key="key">
-          <span >{{ key }}</span>
-        </th>
-        <th >
-          qtd. gols
-        </th> -->
-          <!-- <th>ttt {{jogadoresDessaPartida}}</th> -->
+          <th>Jogador</th>
+          <th>Time</th>
+          <th>Gols</th>
         </tr>
       </thead>
       <tbody id="test_tabela" class="table-dark">
         <tr v-for="item in jogadoresDessaPartida" v-bind:key="item" 
       v-bind:class="item===entidadeSelecionada?'table-primary':''">
-        <td v-for="(atributo, key) in item" v-bind:key="key"
-        >
-          <span >{{atributo}} - {{key}}</span>
+        <td>
+          {{getJogadorPorId(item.idJogador).nome}}
         </td>
-        <td >
-          
-          
+        <td >          
+          {{item.nomeTime}}
+        </td>
+        <td>
+          {{item.gols}}
         </td>
            
       </tr>
@@ -44,6 +41,9 @@ export default {
   },
   computed: {
       ...mapGetters(['getGolsTime','getEntePorId']),
+      getJogadorPorId(){
+        return idJogador => this.getEntePorId("jogadores",idJogador)
+      },
       jogadoresDessaPartida() {
         if(!this.lista[0] ) return [];
 
@@ -53,7 +53,7 @@ export default {
       if(partidaAtual && partidaAtual.jogadores){
           return partidaAtual.jogadores
       }
-      else return [];
+      return [];
     },
     listaJogadorGolTime(){
       this.jogadoresDessaPartida
