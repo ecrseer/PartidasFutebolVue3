@@ -51,10 +51,8 @@ export default {
   },
   methods: {
     atualizar() {
-      this.$emit("bombom");
+      this.$emit("marcarGol",this.idJogadorSelect);
     },
-  },
-  mounted() { 
   },
 };
 </script>

@@ -27,8 +27,7 @@ export default {
   components: {
     Formulario,
     TabelaGenerica,
-    ListaCards,
-    
+    ListaCards,    
     DropDownGolsJogador,
     DropDownTimesPartida,
     TabelaGolsJogadorTime,

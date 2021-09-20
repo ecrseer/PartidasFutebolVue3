@@ -39,7 +39,7 @@ export default {
       this.$emit('bombom')
     },
     tt(){
-      console.log('tt'+this.modelValue)
+      //console.log('tt'+this.modelValue)
     }
   }
 }

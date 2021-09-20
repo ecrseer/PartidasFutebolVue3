@@ -176,6 +176,14 @@ const store = createStore({
     },
     jogador_criar(state, jogador) {
       state.jogadores.push(jogador)
+      state.carregando = false
+    },
+    gol_criar(state, gol) {
+      state.gols.push(gol)
+    },
+    partida_criar(state,partida){
+      state.partidas.push(partida)
+      state.carregando = false
     }
   },
   actions: { // equivalente ao methods de um componente
@@ -204,6 +212,14 @@ const store = createStore({
       commit('carregando')
       await axios.post(baseUrlApi.times, { ...time })
       commit('time_criar', time)
+
+    },
+    async criarGol({ commit }, {gol,partida}) {
+      commit('carregando')
+      axios.post(baseUrlApi.gols, { ...gol } )
+      axios.post(baseUrlApi.partidas, { ...partida } )
+      
+      commit('gol_criar', gol)
 
     },
     async criarJogador({ commit, dispatch }, { time, jogador }) {
