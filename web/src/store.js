@@ -42,9 +42,11 @@ const store = createStore({
     },
     getTimesDisponiveisExcluindoSelecao(state, getters) {
       return function filtrarBySelecao(arrSelecao){
-        let disponiveis=state.times
+        let disponiveis= state.times
         for (const timeId of arrSelecao) {
-            disponiveis=disponiveis.filter(tme=>tme.id!==timeId)
+            disponiveis = disponiveis.filter(tme=>`${tme.id}`!==`${timeId}`)
+            console.log(disponiveis)
+            console.log(state.times)
         }
         if(disponiveis) return disponiveis
         return []

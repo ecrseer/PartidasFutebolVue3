@@ -1,5 +1,6 @@
 <template>
   <div class="col-12">
+    
     <CampoDropDown v-model="idTimeSelect" :itens="timesPossiveis" />
     
     <CampoDropDown v-model="idJogadorSelect" :itens="jogadoresNesseTime" />

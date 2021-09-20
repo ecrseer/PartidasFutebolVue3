@@ -7,7 +7,7 @@
       :placeholder="nome"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)">
-      <option v-for="item in itens" :key="item" :value="item.id || item">
+      <option v-for="item in itens" :key="item.id" :value="item.id || item">
         {{ item.nome || item}}</option>
     </select>
   </div>
