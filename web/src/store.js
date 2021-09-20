@@ -37,11 +37,17 @@ const store = createStore({
 
       }
     },
-    getGolsJogadorTimeParaPartida(state, getters) {
-      return function getGolsJogadorByTime(timeDaPartida, jogadorDaPartida) {
-        let result = getters.getGolsTime(timeDaPartida, jogadorDaPartida)
-        debugger
-        //{jogador:x gols:x time:x}
+    getTodosTimes(state){
+      return state.times
+    },
+    getTimesDisponiveisExcluindoSelecao(state, getters) {
+      return function filtrarBySelecao(arrSelecao){
+        let disponiveis=state.times
+        for (const timeId of arrSelecao) {
+            disponiveis=disponiveis.filter(tme=>tme.id!==timeId)
+        }
+        if(disponiveis) return disponiveis
+        return []
       }
     },
     getGolsTime(state) {
