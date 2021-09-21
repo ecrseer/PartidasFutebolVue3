@@ -5,13 +5,15 @@
         <CampoDropDown
           :nome="'timeA'"
           v-model="idTimeA"
-          :itens="timesDisponiveisAgora"
+          :itens="getTodosTimes" 
+          :timesJaSelecionados="timesSelecionadosPartida"
         />
         <div>Placar {{geraPlacar}}</div>
         <CampoDropDown
           :nome="'timeB'"
           v-model="idTimeB"
-          :itens="timesDisponiveisAgora"
+          :itens="getTodosTimes" 
+          :timesJaSelecionados="timesSelecionadosPartida"
         />
       </main>
       <TabelaGolsJogadorTime :lista="timesSelecionadosPartida" :partidaAtual="partidaAtual"/>
@@ -73,6 +75,7 @@ export default {
       }
       return parTimes;
     },
+    //deprecated
     timesDisponiveisAgora() {
       let arrDeveFiltrar = [];
       if (this.idTimeA) arrDeveFiltrar.push(this.idTimeA);
