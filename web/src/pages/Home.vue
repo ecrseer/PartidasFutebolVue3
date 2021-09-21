@@ -1,8 +1,11 @@
 <template>
   <div class="d-flex justify-content-center">
-      <h1 class="display-1">Display {{isCelular}}</h1>
-      <h1 class="display-1">Display {{tamanhoJanela}}</h1>
-      <h1 class="display-1">Display 1</h1>
+<div>    
+  
+  <h5>Frameworks Front-End e Conexão com Back-End</h5>
+      <h6  >Aluno: Gabriel Justino Marques Couto</h6>
+      
+      </div>
     </div>
 </template>
 

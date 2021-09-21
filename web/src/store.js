@@ -36,7 +36,7 @@ const store = createStore({
         
           let jogadorEncontrado = state.jogadores
           .filter(jogadr=>jogadr.id===jogadorId)[0]
-        
+          //getters.getJogadorbyId
           if(jogadorEncontrado){
             jogadoresNoTime.push(jogadorEncontrado)
           }

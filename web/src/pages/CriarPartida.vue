@@ -75,9 +75,9 @@ export default {
     }, 
     geraPlacar(){
 
-      if(Object.keys(this.partidaAtual).length===0) return '0 x 0'
-
       let time = this.timesSelecionadosPartida[0]
+      if(Object.keys(this.partidaAtual).length===0 || !time) return '0 x 0'
+
       let golsTimeCasa = this.getGolsByPartida(this.partidaAtual.id,time)  
       time = this.timesSelecionadosPartida[1]
       let golsTimeVisitante = this.getGolsByPartida(this.partidaAtual.id,time)  
