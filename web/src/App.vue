@@ -24,23 +24,30 @@
           </button>
           <div v-else class="d-flex flex-row">
             <BotoesRotas />
+      
           </div>
         </div>
       </nav>
+          <ProgressBar v-if="carregando"/>
+  
     </section>
     <main class="d-flex flex-row justify-content-center">
+      <!-- rotas -->
       <router-view></router-view>
     </main>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import BotoesRotas from "./components/BotoesRotas.vue";
+import ProgressBar from './components/ProgressBar.vue';
 import breakpoint from "./style/breakpoint";
 export default {
-  components: { BotoesRotas },
+  components: { BotoesRotas, ProgressBar },
   name: "App",
   computed: {
+    ...mapState(['carregando']),
     isCelular() {
       const { largura } = breakpoint();
       let wd = largura();

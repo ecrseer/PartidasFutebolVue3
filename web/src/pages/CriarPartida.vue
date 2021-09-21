@@ -29,7 +29,6 @@ import CampoDropDown from "../components/CampoDropDown.vue";
 import DropDownGolsJogador from "../components/DropDownGolsJogador.vue";
 
 import Formulario from "../components/Formulario.vue";
-import ListaCards from "../components/ListaCards.vue";
 import TabelaGenerica from "../components/TabelaGenerica.vue";
 import TabelaGolsJogadorTime from "../components/TabelaGolsJogadorTime.vue";
 
@@ -38,7 +37,6 @@ export default {
   components: {
     Formulario,
     TabelaGenerica,
-    ListaCards,
     DropDownGolsJogador, 
     TabelaGolsJogadorTime,
     CampoDropDown,
@@ -74,19 +72,7 @@ export default {
         parTimes.push(time);
       }
       return parTimes;
-    },
-    //deprecated
-    timesDisponiveisAgora() {
-      let arrDeveFiltrar = [];
-      if (this.idTimeA) arrDeveFiltrar.push(this.idTimeA);
-      if (this.idTimeB) arrDeveFiltrar.push(this.idTimeB);
-      let disponiveis = this.getTodosTimes;
-      for (const timeId of arrDeveFiltrar) {
-        disponiveis = disponiveis.filter((tme) => `${tme.id}` !== `${timeId}`);
-         
-      }
-      return disponiveis;
-    },
+    }, 
     geraPlacar(){
 
       if(Object.keys(this.partidaAtual).length===0) return '0 x 0'
@@ -105,8 +91,7 @@ export default {
       let partida = this.partidaAtual || {
         time_casa: Number(this.idTimeA),
         time_visitante: Number(this.idTimeB),
-      };
-      console.log(`partida eh ${partida}`)
+      }; 
       this.$store.dispatch("criarGol", { jogador_id, partida });
     });
   },

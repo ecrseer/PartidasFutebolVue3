@@ -21,14 +21,12 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
+<script> 
 export default {
   name: "CampoDropDown",
   emits: ["update:modelValue"],
   props: ["nome", "modelValue", "itens", "timesJaSelecionados"],
-  computed: {
-    ...mapGetters(["getEntePorId"]),
+  computed: { 
     estaSelecionado(){
       return function desabilita(item){
         if(!this.timesJaSelecionados) return false
@@ -42,35 +40,8 @@ export default {
         }
         return false;
       };
-    },
-    itensPossiveis() {
-      if (!this.modelValue) return this.itens;
-      let disponiveis = this.itens.filter(
-        (item) => item.id !== Number(this.modelValue)
-      );
-
-      return disponiveis || this.itens;
-    },
-    itensSelecionados() {
-      if (!this.modelValue) return [];
-      let disponivel = this.itens.filter(
-        (item) => item.id === Number(this.modelValue)
-      )[0];
-
-      return disponivel || []
-
-    },
-  },
-  data: () => {
-    return {
-      nomeItemExcluido: false,
-    };
-  },
-  watch: {
-    modelValue(prev, next) {
-      
-    },
-  }
+    }, 
+  }, 
 };
 </script>
 

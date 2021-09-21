@@ -31,11 +31,10 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import Formulario from "../components/Formulario.vue";
-import ListaCards from "../components/ListaCards.vue";
 import TabelaGenerica from "../components/TabelaGenerica.vue";
 
 export default {
-  components: { Formulario, TabelaGenerica, ListaCards },
+  components: { Formulario, TabelaGenerica },
   data: () => {
     return {
       jogadorSelecionado: false,
